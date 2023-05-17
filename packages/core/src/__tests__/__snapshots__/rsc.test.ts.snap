@@ -3,7 +3,7 @@
 exports[`RSC > jsx > Javascript Test > AdvancedRef 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicRefComponent(props) {
+function MyBasicRefComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -22,7 +22,7 @@ export default function MyBasicRefComponent(props) {
       <div>
         {props.showInput ? (
           <>
-            <input className=\\"input-37c780bb\\" value={state.name} />
+            <input className=\\"input-5e04c954\\" value={state.name} />
 
             <label htmlFor=\\"cars\\">Choose a car:</label>
 
@@ -37,12 +37,14 @@ export default function MyBasicRefComponent(props) {
         {state.lowerCaseName()}! I can run in React, Qwik, Vue, Solid, or Web
         Component!
       </div>
-      <style>{\`.input-37c780bb {
-color: red;
+      <style>{\`.input-5e04c954 {
+  color: red;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicRefComponent;
 "
 `;
 
@@ -53,7 +55,7 @@ export const DEFAULT_VALUES = {
   name: \\"Steve\\",
 };
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -67,25 +69,27 @@ export default function MyBasicComponent(props) {
 
   return (
     <>
-      <div className=\\"test div-251ed544\\">
+      <div className=\\"test div-147b3959\\">
         <input value={DEFAULT_VALUES.name || state.name} />
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
-      <style>{\`.div-251ed544 {
-padding: 10px;
+      <style>{\`.div-147b3959 {
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Basic Context 1`] = `
 "import * as React from \\"react\\";
 import { useEffect } from \\"react\\";
-import { Injector, createInjector, MyService } from \\"@dummy/injection-js\\";
+import { createInjector, Injector, MyService } from \\"@dummy/injection-js\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -101,7 +105,7 @@ export default function MyBasicComponent(props) {
   useEffect(() => {
     const hi = myService.method(\\"hi\\");
     console.log(hi);
-  });
+  }, []);
 
   return (
     <div>
@@ -111,6 +115,8 @@ export default function MyBasicComponent(props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -118,14 +124,14 @@ exports[`RSC > jsx > Javascript Test > Basic OnMount Update 1`] = `
 "import * as React from \\"react\\";
 import { useEffect } from \\"react\\";
 
-export default function MyBasicOnMountUpdateComponent(props) {
+function MyBasicOnMountUpdateComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\", names: [\\"Steve\\", \\"PatrickJS\\"] };
 
   useEffect(() => {
     state.name = \\"PatrickJS onInit\\" + props.hi;
-  });
+  }, []);
 
   return (
     <div>
@@ -134,43 +140,51 @@ export default function MyBasicOnMountUpdateComponent(props) {
     </div>
   );
 }
+
+export default MyBasicOnMountUpdateComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Basic Outputs 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicOutputsComponent(props) {
+function MyBasicOutputsComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
 
   return <div />;
 }
+
+export default MyBasicOutputsComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Basic Outputs Meta 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicOutputsComponent(props) {
+function MyBasicOutputsComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
 
   return <div />;
 }
+
+export default MyBasicOutputsComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > BasicAttribute 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input autoCapitalize=\\"on\\" autoComplete=\\"on\\" spellCheck={true} />;
 }
+
+export default MyComponent;
 "
 `;
 
@@ -178,7 +192,7 @@ exports[`RSC > jsx > Javascript Test > BasicBooleanAttribute 1`] = `
 "import * as React from \\"react\\";
 import MyBooleanAttributeComponent from \\"./basic-boolean-attribute-component.raw\\";
 
-export default function MyBooleanAttribute(props) {
+function MyBooleanAttribute(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -195,15 +209,17 @@ export default function MyBooleanAttribute(props) {
     </div>
   );
 }
+
+export default MyBooleanAttribute;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > BasicChildComponent 1`] = `
 "import * as React from \\"react\\";
-import MyBasicComponent from \\"./basic.raw\\";
 import MyBasicOnMountUpdateComponent from \\"./basic-onMount-update.raw\\";
+import MyBasicComponent from \\"./basic.raw\\";
 
-export default function MyBasicChildComponent(props) {
+function MyBasicChildComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Steve\\", dev: \\"PatrickJS\\" };
@@ -222,13 +238,15 @@ export default function MyBasicChildComponent(props) {
     </div>
   );
 }
+
+export default MyBasicChildComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > BasicFor 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicForComponent(props) {
+function MyBasicForComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\", names: [\\"Steve\\", \\"PatrickJS\\"] };
@@ -246,13 +264,15 @@ export default function MyBasicForComponent(props) {
     </div>
   );
 }
+
+export default MyBasicForComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > BasicRef 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicRefComponent(props) {
+function MyBasicRefComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -271,7 +291,7 @@ export default function MyBasicRefComponent(props) {
       <div>
         {props.showInput ? (
           <>
-            <input className=\\"input-37c780bb\\" value={state.name} />
+            <input className=\\"input-5e04c954\\" value={state.name} />
 
             <label htmlFor=\\"cars\\">Choose a car:</label>
 
@@ -286,19 +306,21 @@ export default function MyBasicRefComponent(props) {
         {state.lowerCaseName()}! I can run in React, Qwik, Vue, Solid, or Web
         Component!
       </div>
-      <style>{\`.input-37c780bb {
-color: red;
+      <style>{\`.input-5e04c954 {
+  color: red;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicRefComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > BasicRefAssignment 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicRefAssignmentComponent(props) {
+function MyBasicRefAssignmentComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -315,16 +337,18 @@ export default function MyBasicRefAssignmentComponent(props) {
     </div>
   );
 }
+
+export default MyBasicRefAssignmentComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > BasicRefPrevious 1`] = `
 "import * as React from \\"react\\";
 
-export function usePrevious<T>(value: T) {
+export function usePrevious(value) {
   // The ref object is a generic container whose current property is mutable ...
   // ... and can hold any value, similar to an instance property on a class
-  let ref = useRef<T>(null); // Store current value in ref
+  let ref = useRef(null); // Store current value in ref
 
   onUpdate(() => {
     ref = value;
@@ -334,7 +358,7 @@ export function usePrevious<T>(value: T) {
   return ref;
 }
 
-export default function MyPreviousComponent(props) {
+function MyPreviousComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { count: 0 };
@@ -351,13 +375,15 @@ export default function MyPreviousComponent(props) {
     </div>
   );
 }
+
+export default MyPreviousComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Button 1`] = `
 "import * as React from \\"react\\";
 
-export default function Button(props) {
+function Button(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -384,13 +410,15 @@ export default function Button(props) {
     </div>
   );
 }
+
+export default Button;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Columns 1`] = `
 "import * as React from \\"react\\";
 
-export default function Column(props) {
+function Column(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -415,33 +443,35 @@ export default function Column(props) {
 
   return (
     <>
-      <div className=\\"builder-columns div-033a66b8\\">
+      <div className=\\"builder-columns div-6557df1e\\">
         {props.columns?.map((column, index) => (
-          <div className=\\"builder-column div-033a66b8-2\\">
+          <div className=\\"builder-column div-6557df1e-2\\">
             {column.content}
 
             {index}
           </div>
         ))}
       </div>
-      <style>{\`.div-033a66b8 {
-display: flex;
-flex-direction: column;
-align-items: stretch;
-line-height: normal;
-}@media (max-width: 999px) { .div-033a66b8 {   flex-direction: row; } }@media (max-width: 639px) { .div-033a66b8 {   flex-direction: row-reverse; } }.div-033a66b8-2 {
-flex-grow: 1;
+      <style>{\`.div-6557df1e {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+}@media (max-width: 999px) { .div-6557df1e {   flex-direction: row; } }@media (max-width: 639px) { .div-6557df1e {   flex-direction: row-reverse; } }.div-6557df1e-2 {
+  flex-grow: 1;
 }\`}</style>
     </>
   );
 }
+
+export default Column;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > ContentSlotHtml 1`] = `
 "import * as React from \\"react\\";
 
-export default function ContentSlotCode(props) {
+function ContentSlotCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -456,38 +486,68 @@ export default function ContentSlotCode(props) {
     </div>
   );
 }
+
+export default ContentSlotCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > ContentSlotJSX 1`] = `
 "import * as React from \\"react\\";
 
-export default function ContentSlotJsxCode(props) {
+function ContentSlotJsxCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
+  const state = {
+    name: \\"king\\",
+    showContent: false,
+    get cls() {
+      return props.slotContent && props.children ? \`\${state.name}-content\` : \\"\\";
+    },
+    show() {
+      props.slotContent ? 1 : \\"\\";
+    },
+  };
+
   return (
-    <div>
-      {props.slotTesting ? (
+    <>
+      {props.slotReference ? (
         <>
-          <div>{props.slotTesting}</div>
+          <div
+            name={props.slotContent ? \\"name1\\" : \\"name2\\"}
+            title={props.slotContent ? \\"title1\\" : \\"title2\\"}
+            {...props.attributes}
+            className={state.cls}
+          >
+            {state.showContent && props.slotContent ? (
+              <>{props.slotContent || \\"{props.content}\\"}</>
+            ) : null}
+
+            <div>
+              <hr />
+            </div>
+
+            <div>{props.children}</div>
+          </div>
         </>
       ) : null}
-
-      <div>
-        <hr />
-      </div>
-
-      <div>{props.children}</div>
-    </div>
+    </>
   );
 }
+
+ContentSlotJsxCode.defaultProps = {
+  content: \\"\\",
+  slotReference: undefined,
+  slotContent: undefined,
+};
+
+export default ContentSlotJsxCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > CustomCode 1`] = `
 "import * as React from \\"react\\";
 
-export default function CustomCode(props) {
+function CustomCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -545,13 +605,15 @@ export default function CustomCode(props) {
     />
   );
 }
+
+export default CustomCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Embed 1`] = `
 "import * as React from \\"react\\";
 
-export default function CustomCode(props) {
+function CustomCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -609,18 +671,22 @@ export default function CustomCode(props) {
     />
   );
 }
+
+export default CustomCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Form 1`] = `
 "import * as React from \\"react\\";
-import { BuilderBlock as BuilderBlockComponent } from \\"@fake\\";
 import { Builder, builder } from \\"@builder.io/sdk\\";
-import { BuilderBlocks } from \\"@fake\\";
-import { set } from \\"@fake\\";
-import { get } from \\"@fake\\";
+import {
+  BuilderBlock as BuilderBlockComponent,
+  BuilderBlocks,
+  get,
+  set,
+} from \\"@fake\\";
 
-export default function FormComponent(props) {
+function FormComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -760,7 +826,7 @@ export default function FormComponent(props) {
                 get(body, props.errorMessagePath);
               if (message) {
                 if (typeof message !== \\"string\\") {
-                  /* TODO: ideally convert json to yaml so it woul dbe like            error: - email has been taken */ message =
+                  /* TODO: ideally convert json to yaml so it woul dbe like          error: - email has been taken */ message =
                     JSON.stringify(message);
                 }
                 state.formErrorMessage = message;
@@ -860,7 +926,7 @@ export default function FormComponent(props) {
         ) : null}{\\" \\"}
         {state.submissionState === \\"error\\" && state.responseData ? (
           <>
-            <pre className=\\"builder-form-error-text pre-170708b2\\">
+            <pre className=\\"builder-form-error-text pre-172edb1e\\">
               {\\" \\"}
               {JSON.stringify(state.responseData, null, 2)}{\\" \\"}
             </pre>
@@ -876,17 +942,18 @@ export default function FormComponent(props) {
           </>
         ) : null}{\\" \\"}
       </form>{\\" \\"}
-      <style>{\`.pre-170708b2 { padding: 10px; color: red; text-align: center; }\`}</style>{\\" \\"}
+      <style>{\`.pre-172edb1e {   padding: 10px;   color: red;   text-align: center; }\`}</style>{\\" \\"}
     </>
   );
 }
+export default FormComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Image 1`] = `
 "import * as React from \\"react\\";
 
-export default function Image(props) {
+function Image(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -920,7 +987,7 @@ export default function Image(props) {
                 className={
                   \\"builder-image\\" +
                   (props._class ? \\" \\" + props._class : \\"\\") +
-                  \\" img-ccac6a98\\"
+                  \\" img-af8fac0c\\"
                 }
                 src={props.image}
                 srcset={props.srcset}
@@ -934,22 +1001,24 @@ export default function Image(props) {
 
         {props.children}
       </div>
-      <style>{\`.img-ccac6a98 {
-opacity: 1;
-transition: opacity 0.2s ease-in-out;
-object-fit: cover;
-object-position: center;
+      <style>{\`.img-af8fac0c {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+  object-fit: cover;
+  object-position: center;
 }\`}</style>
     </>
   );
 }
+
+export default Image;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Image State 1`] = `
 "import * as React from \\"react\\";
 
-export default function ImgStateComponent(props) {
+function ImgStateComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { canShow: true, images: [\\"http://example.com/qwik.png\\"] };
@@ -964,6 +1033,8 @@ export default function ImgStateComponent(props) {
     </div>
   );
 }
+
+export default ImgStateComponent;
 "
 `;
 
@@ -971,7 +1042,7 @@ exports[`RSC > jsx > Javascript Test > Img 1`] = `
 "import * as React from \\"react\\";
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function ImgComponent(props) {
+function ImgComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -987,6 +1058,8 @@ export default function ImgComponent(props) {
     />
   );
 }
+
+export default ImgComponent;
 "
 `;
 
@@ -994,7 +1067,7 @@ exports[`RSC > jsx > Javascript Test > Input 1`] = `
 "import * as React from \\"react\\";
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function FormInputComponent(props) {
+function FormInputComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1014,13 +1087,15 @@ export default function FormInputComponent(props) {
     />
   );
 }
+
+export default FormInputComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > RawText 1`] = `
 "import * as React from \\"react\\";
 
-export default function RawText(props) {
+function RawText(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1030,13 +1105,15 @@ export default function RawText(props) {
     />
   );
 }
+
+export default RawText;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Section 1`] = `
 "import * as React from \\"react\\";
 
-export default function SectionComponent(props) {
+function SectionComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1054,6 +1131,8 @@ export default function SectionComponent(props) {
     </section>
   );
 }
+
+export default SectionComponent;
 "
 `;
 
@@ -1061,7 +1140,7 @@ exports[`RSC > jsx > Javascript Test > Select 1`] = `
 "import * as React from \\"react\\";
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function SelectComponent(props) {
+function SelectComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1084,17 +1163,21 @@ export default function SelectComponent(props) {
     </select>
   );
 }
+
+export default SelectComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > SlotDefault 1`] = `
 "import * as React from \\"react\\";
 
-export default function SlotCode(props) {
+function SlotCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div slotContext={_context}></div>;
 }
+
+export default SlotCode;
 "
 `;
 
@@ -1102,7 +1185,7 @@ exports[`RSC > jsx > Javascript Test > SlotHtml 1`] = `
 "import * as React from \\"react\\";
 import ContentSlotCode from \\"./content-slot-jsx.raw\\";
 
-export default function SlotCode(props) {
+function SlotCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1114,6 +1197,8 @@ export default function SlotCode(props) {
     </div>
   );
 }
+
+export default SlotCode;
 "
 `;
 
@@ -1121,7 +1206,7 @@ exports[`RSC > jsx > Javascript Test > SlotJsx 1`] = `
 "import * as React from \\"react\\";
 import ContentSlotCode from \\"./content-slot-jsx.raw\\";
 
-export default function SlotCode(props) {
+function SlotCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1130,34 +1215,35 @@ export default function SlotCode(props) {
     </div>
   );
 }
+
+export default SlotCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > SlotNamed 1`] = `
 "import * as React from \\"react\\";
 
-export default function SlotCode(props) {
+function SlotCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
     <div slotContext={_context}>
       {props.slotTop}
 
-      {props.slotLeft}
+      {props.slotLeft || \\"Default left\\"}
     </div>
   );
 }
 
-SlotCode.defaultProps = { slotLeft: \\"Default left\\" };
+export default SlotCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Stamped.io 1`] = `
 "import * as React from \\"react\\";
-import { kebabCase } from \\"lodash\\";
-import { snakeCase } from \\"lodash\\";
+import { kebabCase, snakeCase } from \\"lodash\\";
 
-export default function SmileReviews(props) {
+function SmileReviews(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -1180,18 +1266,18 @@ export default function SmileReviews(props) {
         {state.showReviewPrompt || \\"asdf\\" ? (
           <>
             <input placeholder=\\"Email\\" />
-            <input placeholder=\\"Title\\" className=\\"input-000d4b30\\" />
+            <input placeholder=\\"Title\\" className=\\"input-5b52f02a\\" />
             <textarea
               placeholder=\\"How was your experience?\\"
-              className=\\"textarea-000d4b30\\"
+              className=\\"textarea-5b52f02a\\"
             />
-            <button className=\\"button-000d4b30\\">Submit</button>
+            <button className=\\"button-5b52f02a\\">Submit</button>
           </>
         ) : null}
 
         {state.reviews?.map((review, index) => (
-          <div className=\\"review-000d4b30\\" key={review.id}>
-            <img className=\\"img-000d4b30\\" src={review.avatar} />
+          <div className=\\"review-5b52f02a\\" key={review.id}>
+            <img className=\\"img-5b52f02a\\" src={review.avatar} />
 
             <div
               className={state.showReviewPrompt ? \\"bg-primary\\" : \\"bg-secondary\\"}
@@ -1208,34 +1294,36 @@ export default function SmileReviews(props) {
           </div>
         ))}
       </div>
-      <style>{\`.input-000d4b30 {
-display: block;
-}.textarea-000d4b30 {
-display: block;
-}.button-000d4b30 {
-display: block;
-}.review-000d4b30 {
-margin: 10px;
-padding: 10px;
-background: white;
-display: flex;
-border-radius: 5px;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}.img-000d4b30 {
-height: 30px;
-width: 30px;
-margin-right: 10px;
+      <style>{\`.input-5b52f02a {
+  display: block;
+}.textarea-5b52f02a {
+  display: block;
+}.button-5b52f02a {
+  display: block;
+}.review-5b52f02a {
+  margin: 10px;
+  padding: 10px;
+  background: white;
+  display: flex;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}.img-5b52f02a {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default SmileReviews;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Submit 1`] = `
 "import * as React from \\"react\\";
 
-export default function SubmitButton(props) {
+function SubmitButton(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1244,6 +1332,8 @@ export default function SubmitButton(props) {
     </button>
   );
 }
+
+export default SubmitButton;
 "
 `;
 
@@ -1251,7 +1341,7 @@ exports[`RSC > jsx > Javascript Test > Text 1`] = `
 "import * as React from \\"react\\";
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function Text(props) {
+function Text(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Decadef20\\" };
@@ -1272,13 +1362,15 @@ export default function Text(props) {
     />
   );
 }
+
+export default Text;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Textarea 1`] = `
 "import * as React from \\"react\\";
 
-export default function Textarea(props) {
+function Textarea(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1291,13 +1383,15 @@ export default function Textarea(props) {
     />
   );
 }
+
+export default Textarea;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > Video 1`] = `
 "import * as React from \\"react\\";
 
-export default function Video(props) {
+function Video(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1323,13 +1417,15 @@ export default function Video(props) {
     />
   );
 }
+
+export default Video;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > arrowFunctionInUseStore 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -1349,13 +1445,49 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
+"
+`;
+
+exports[`RSC > jsx > Javascript Test > basicForNoTagReference 1`] = `
+"import * as React from \\"react\\";
+
+function MyBasicForNoTagRefComponent(props) {
+  const _context = { ...props[\\"_context\\"] };
+
+  const state = {
+    name: \\"VincentW\\",
+    TagName: \\"div\\",
+    tag: \\"span\\",
+    get TagNameGetter() {
+      return \\"span\\";
+    },
+  };
+
+  return (
+    <state.TagNameGetter _context={_context}>
+      Hello
+      <state.tag>{state.name}</state.tag>
+      {props.actions?.map((action) => (
+        <state.TagName _context={_context}>
+          <action.icon />
+
+          <span>{action.text}</span>
+        </state.TagName>
+      ))}
+    </state.TagNameGetter>
+  );
+}
+
+export default MyBasicForNoTagRefComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > basicForwardRef 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicForwardRefComponent(props) {
+function MyBasicForwardRefComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
@@ -1363,43 +1495,49 @@ export default function MyBasicForwardRefComponent(props) {
   return (
     <>
       <div>
-        <input className=\\"input-346a570f\\" value={state.name} />
+        <input className=\\"input-5987db15\\" value={state.name} />
       </div>
-      <style>{\`.input-346a570f {
-color: red;
+      <style>{\`.input-5987db15 {
+  color: red;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicForwardRefComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > basicForwardRefMetadata 1`] = `
 "import * as React from \\"react\\";
 
-export default forwardRef(function MyBasicForwardRefComponent(props, inputRef) {
-  const _context = { ...props[\\"_context\\"] };
+const MyBasicForwardRefComponent = forwardRef(
+  function MyBasicForwardRefComponent(props, inputRef) {
+    const _context = { ...props[\\"_context\\"] };
 
-  const state = { name: \\"PatrickJS\\" };
+    const state = { name: \\"PatrickJS\\" };
 
-  return (
-    <>
-      <div>
-        <input className=\\"input-52d8b09f\\" value={state.name} />
-      </div>
-      <style>{\`.input-52d8b09f {
-color: red;
+    return (
+      <>
+        <div>
+          <input className=\\"input-ec76c244\\" value={state.name} />
+        </div>
+        <style>{\`.input-ec76c244 {
+  color: red;
 }\`}</style>
-    </>
-  );
-});
+      </>
+    );
+  }
+);
+
+export default MyBasicForwardRefComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > basicOnUpdateReturn 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicOnUpdateReturnComponent(props) {
+function MyBasicOnUpdateReturnComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
@@ -1411,13 +1549,15 @@ export default function MyBasicOnUpdateReturnComponent(props) {
     </div>
   );
 }
+
+export default MyBasicOnUpdateReturnComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > class + ClassName + css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1426,18 +1566,20 @@ export default function MyBasicComponent(props) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-0a30b052 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > class + css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1446,18 +1588,20 @@ export default function MyBasicComponent(props) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-3e236934 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > className + css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1466,18 +1610,20 @@ export default function MyBasicComponent(props) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-3e236934 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > className 1`] = `
 "import * as React from \\"react\\";
 
-export default function ClassNameCode(props) {
+function ClassNameCode(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { bindings: \\"a binding\\" };
@@ -1490,13 +1636,15 @@ export default function ClassNameCode(props) {
     </div>
   );
 }
+
+export default ClassNameCode;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > classState 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -1515,11 +1663,13 @@ export default function MyBasicComponent(props) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-a140d134 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -1528,7 +1678,7 @@ exports[`RSC > jsx > Javascript Test > componentWithContext 1`] = `
 import Context1 from \\"@dummy/1\\";
 import Context2 from \\"@dummy/2\\";
 
-export default function ComponentWithContext(props) {
+function ComponentWithContext(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const foo = _context[\\"Context1\\"];
@@ -1544,6 +1694,8 @@ export default function ComponentWithContext(props) {
 
   return <>{foo.value}</>;
 }
+
+export default ComponentWithContext;
 "
 `;
 
@@ -1552,7 +1704,7 @@ exports[`RSC > jsx > Javascript Test > componentWithContextMultiRoot 1`] = `
 import Context1 from \\"@dummy/1\\";
 import Context2 from \\"@dummy/2\\";
 
-export default function ComponentWithContext(props) {
+function ComponentWithContext(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const foo = _context[\\"Context1\\"];
@@ -1574,6 +1726,8 @@ export default function ComponentWithContext(props) {
     </>
   );
 }
+
+export default ComponentWithContext;
 "
 `;
 
@@ -1581,7 +1735,7 @@ exports[`RSC > jsx > Javascript Test > contentState 1`] = `
 "import * as React from \\"react\\";
 import BuilderContext from \\"@dummy/context.lite\\";
 
-export default function RenderContent(props) {
+function RenderContent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   _context.BuilderContext = {
@@ -1591,13 +1745,15 @@ export default function RenderContent(props) {
 
   return <div>setting context</div>;
 }
+
+export default RenderContent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > defaultProps 1`] = `
 "import * as React from \\"react\\";
 
-export default function Button(props) {
+function Button(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1633,13 +1789,15 @@ Button.defaultProps = {
     console.log(\\"hi\\");
   },
 };
+
+export default Button;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > defaultPropsOutsideComponent 1`] = `
 "import * as React from \\"react\\";
 
-export default function Button(props) {
+function Button(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1673,17 +1831,19 @@ Button.defaultProps = {
   openLinkInNewTab: false,
   onClick: () => {},
 };
+
+export default Button;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > defaultValsWithTypes 1`] = `
 "import * as React from \\"react\\";
 
-const DEFAULT_VALUES: Props = {
+const DEFAULT_VALUES = {
   name: \\"Sami\\",
 };
 
-export default function ComponentWithTypes(props) {
+function ComponentWithTypes(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1694,13 +1854,15 @@ export default function ComponentWithTypes(props) {
     </div>
   );
 }
+
+export default ComponentWithTypes;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > expressionState 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -1711,6 +1873,8 @@ export default function MyComponent(props) {
 
   return <div>{state.refToUse}</div>;
 }
+
+export default MyComponent;
 "
 `;
 
@@ -1718,7 +1882,7 @@ exports[`RSC > jsx > Javascript Test > import types 1`] = `
 "import * as React from \\"react\\";
 import RenderBlock from \\"./builder-render-block.raw\\";
 
-export default function RenderContent(props) {
+function RenderContent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -1737,37 +1901,43 @@ export default function RenderContent(props) {
     />
   );
 }
+
+export default RenderContent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > multipleOnUpdate 1`] = `
 "import * as React from \\"react\\";
 
-export default function MultipleOnUpdate(props) {
+function MultipleOnUpdate(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default MultipleOnUpdate;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > multipleOnUpdateWithDeps 1`] = `
 "import * as React from \\"react\\";
 
-export default function MultipleOnUpdateWithDeps(props) {
+function MultipleOnUpdateWithDeps(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { a: \\"a\\", b: \\"b\\", c: \\"c\\", d: \\"d\\" };
 
   return <div />;
 }
+
+export default MultipleOnUpdateWithDeps;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > multipleSpreads 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -1778,13 +1948,15 @@ export default function MyBasicComponent(props) {
 
   return <input {...state.attrs} {...props} />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > nestedShow 1`] = `
 "import * as React from \\"react\\";
 
-export default function NestedShow(props) {
+function NestedShow(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1805,29 +1977,40 @@ export default function NestedShow(props) {
     </>
   );
 }
+
+export default NestedShow;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > nestedStyles 1`] = `
 "import * as React from \\"react\\";
 
-export default function NestedStyles(props) {
+function NestedStyles(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
     <>
-      <div className=\\"div-caf6a574\\">Hello world</div>
-      <style>{\`.div-caf6a574 {
-display: flex;
-foo: var(--bar);
-}@media (max-width: env(--mobile)) { .div-caf6a574 {   display: block; } }.div-caf6a574:hover {
-display: flex;
-}.div-caf6a574 .nested-selector {
-display: grid;
+      <div className=\\"div-1322de04\\">Hello world</div>
+      <style>{\`.div-1322de04 {
+  display: flex;
+  --bar: red;
+  color: var(--bar);
+}@media (max-width: env(--mobile)) { .div-1322de04 {   display: block; } }.div-1322de04:hover {
+  display: flex;
+}.div-1322de04:active {
+  display: inline;
+}.div-1322de04 .nested-selector {
+  display: grid;
+}.div-1322de04 .nested-selector:hover {
+  display: block;
+}.div-1322de04.nested-selector:active {
+  display: inline-block;
 }\`}</style>
     </>
   );
 }
+
+export default NestedStyles;
 "
 `;
 
@@ -1835,15 +2018,17 @@ exports[`RSC > jsx > Javascript Test > onInit & onMount 1`] = `
 "import * as React from \\"react\\";
 import { useEffect } from \\"react\\";
 
-export default function OnInit(props) {
+function OnInit(props) {
   const _context = { ...props[\\"_context\\"] };
 
   useEffect(() => {
     console.log(\\"onInit\\");
-  });
+  }, []);
 
   return <div />;
 }
+
+export default OnInit;
 "
 `;
 
@@ -1855,7 +2040,7 @@ export const defaultValues = {
   name: \\"PatrickJS\\",
 };
 
-export default function OnInit(props) {
+function OnInit(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"\\" };
@@ -1863,7 +2048,7 @@ export default function OnInit(props) {
   useEffect(() => {
     state.name = defaultValues.name || props.name;
     console.log(\\"set defaults with props\\");
-  });
+  }, []);
 
   return (
     <div>
@@ -1872,41 +2057,49 @@ export default function OnInit(props) {
     </div>
   );
 }
+
+export default OnInit;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > onMount 1`] = `
 "import * as React from \\"react\\";
 
-export default function Comp(props) {
+function Comp(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default Comp;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > onUpdate 1`] = `
 "import * as React from \\"react\\";
 
-export default function OnUpdate(props) {
+function OnUpdate(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default OnUpdate;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > onUpdateWithDeps 1`] = `
 "import * as React from \\"react\\";
 
-export default function OnUpdateWithDeps(props) {
+function OnUpdateWithDeps(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { a: \\"a\\", b: \\"b\\" };
 
   return <div />;
 }
+
+export default OnUpdateWithDeps;
 "
 `;
 
@@ -1917,20 +2110,22 @@ const b = 3;
 const foo = () => {};
 export const a = 3;
 export const bar = () => {};
-export function run<T>(value: T) {}
+export function run(value) {}
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > preserveTyping 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1940,13 +2135,15 @@ export default function MyBasicComponent(props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > propsDestructure 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Decadef20\\" };
@@ -1959,13 +2156,15 @@ export default function MyBasicComponent(props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > propsInterface 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1975,13 +2174,15 @@ export default function MyBasicComponent(props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > propsType 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -1991,13 +2192,15 @@ export default function MyBasicComponent(props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > referencingFunInsideHook 1`] = `
 "import * as React from \\"react\\";
 
-export default function OnUpdate(props) {
+function OnUpdate(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -2012,27 +2215,29 @@ export default function OnUpdate(props) {
 
   return <div />;
 }
+
+export default OnUpdate;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > renderBlock 1`] = `
 "import * as React from \\"react\\";
+import { TARGET } from \\"../../constants/target.js\\";
+import { evaluate } from \\"../../functions/evaluate.js\\";
+import { extractTextStyles } from \\"../../functions/extract-text-styles.js\\";
 import { getBlockActions } from \\"../../functions/get-block-actions.js\\";
 import { getBlockComponentOptions } from \\"../../functions/get-block-component-options.js\\";
 import { getBlockProperties } from \\"../../functions/get-block-properties.js\\";
 import { getBlockTag } from \\"../../functions/get-block-tag.js\\";
 import { getProcessedBlock } from \\"../../functions/get-processed-block.js\\";
-import { evaluate } from \\"../../functions/evaluate.js\\";
+import { getReactNativeBlockStyles } from \\"../../functions/get-react-native-block-styles.js\\";
 import BlockStyles from \\"./block-styles.lite\\";
 import { isEmptyHtmlElement } from \\"./render-block.helpers.js\\";
-import RenderRepeatedBlock from \\"./render-repeated-block.lite\\";
-import { TARGET } from \\"../../constants/target.js\\";
-import { extractTextStyles } from \\"../../functions/extract-text-styles.js\\";
 import RenderComponentWithContext from \\"./render-component-with-context.lite\\";
 import RenderComponent from \\"./render-component.lite\\";
-import { getReactNativeBlockStyles } from \\"../../functions/get-react-native-block-styles.js\\";
+import RenderRepeatedBlock from \\"./render-repeated-block.lite\\";
 
-export default function RenderBlock(props) {
+function RenderBlock(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -2053,8 +2258,8 @@ export default function RenderBlock(props) {
       if (!ref) {
         // TODO: Public doc page with more info about this message
         console.warn(\`
-        Could not find a registered component named \\"\${componentName}\\". 
-        If you registered it, is the file that registered it imported by the file that needs to render it?\`);
+          Could not find a registered component named \\"\${componentName}\\".
+          If you registered it, is the file that registered it imported by the file that needs to render it?\`);
         return undefined;
       } else {
         return ref;
@@ -2211,16 +2416,13 @@ export default function RenderBlock(props) {
     componentInfo: null,
   };
 
-  const RenderComponentTagRef = state.renderComponentTag;
-  const TagRef = state.tag;
-
   return (
     <>
       {state.shouldWrap ? (
         <>
           {isEmptyHtmlElement(state.tag) ? (
             <>
-              <TagRef {...state.attributes} {...state.actions} />
+              <state.tag {...state.attributes} {...state.actions} />
             </>
           ) : null}
           {!isEmptyHtmlElement(state.tag) && state.repeatItemData ? (
@@ -2237,8 +2439,8 @@ export default function RenderBlock(props) {
           ) : null}
           {!isEmptyHtmlElement(state.tag) && !state.repeatItemData ? (
             <>
-              <TagRef {...state.attributes} {...state.actions}>
-                <RenderComponentTagRef
+              <state.tag {...state.attributes} {...state.actions}>
+                <state.renderComponentTag
                   {...state.renderComponentProps}
                   _context={_context}
                 />
@@ -2260,33 +2462,37 @@ export default function RenderBlock(props) {
                     _context={_context}
                   />
                 ))}
-              </TagRef>
+              </state.tag>
             </>
           ) : null}
         </>
       ) : (
-        <RenderComponentTagRef
-          {...state.renderComponentProps}
-          _context={_context}
-        />
+        <>
+          <state.renderComponentTag
+            {...state.renderComponentProps}
+            _context={_context}
+          />
+        </>
       )}
     </>
   );
 }
+
+export default RenderBlock;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > renderContentExample 1`] = `
 "import * as React from \\"react\\";
+import BuilderContext from \\"@dummy/context.lite\\";
 import {
-  sendComponentsToVisualEditor,
   dispatchNewContentToVisualEditor,
+  sendComponentsToVisualEditor,
   trackClick,
 } from \\"@dummy/injection-js\\";
-import BuilderContext from \\"@dummy/context.lite\\";
 import RenderBlocks from \\"@dummy/RenderBlocks.lite.tsx\\";
 
-export default function RenderContent(props) {
+function RenderContent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   _context.BuilderContext = {
@@ -2300,23 +2506,25 @@ export default function RenderContent(props) {
 
   return (
     <>
-      <div className=\\"div-a387715c\\">
+      <div className=\\"div-046fb807\\">
         <RenderBlocks blocks={props.content.blocks} _context={_context} />
       </div>
-      <style>{\`.div-a387715c {
-display: flex;
-flex-direction: columns;
+      <style>{\`.div-046fb807 {
+  display: flex;
+  flex-direction: columns;
 }\`}</style>
     </>
   );
 }
+
+export default RenderContent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > rootFragmentMultiNode 1`] = `
 "import * as React from \\"react\\";
 
-export default function Button(props) {
+function Button(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2343,13 +2551,15 @@ export default function Button(props) {
     </>
   );
 }
+
+export default Button;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > rootShow 1`] = `
 "import * as React from \\"react\\";
 
-export default function RenderStyles(props) {
+function RenderStyles(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2364,13 +2574,15 @@ export default function RenderStyles(props) {
     </>
   );
 }
+
+export default RenderStyles;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > self-referencing component 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2385,13 +2597,15 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > self-referencing component with children 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2410,13 +2624,15 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > showWithFor 1`] = `
 "import * as React from \\"react\\";
 
-export default function NestedShow(props) {
+function NestedShow(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2433,39 +2649,87 @@ export default function NestedShow(props) {
     </>
   );
 }
+
+export default NestedShow;
+"
+`;
+
+exports[`RSC > jsx > Javascript Test > showWithRootText 1`] = `
+"import * as React from \\"react\\";
+
+function ShowRootText(props) {
+  const _context = { ...props[\\"_context\\"] };
+
+  return <>{props.conditionA ? <>ContentA</> : <div>else-condition-A</div>}</>;
+}
+
+export default ShowRootText;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > spreadAttrs 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input {...attrs} />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > spreadNestedProps 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input {...props.nested} />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > spreadProps 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input {...props} />;
 }
+
+export default MyBasicComponent;
+"
+`;
+
+exports[`RSC > jsx > Javascript Test > styleClassAndCss 1`] = `
+"import * as React from \\"react\\";
+
+function MyComponent(props) {
+  const _context = { ...props[\\"_context\\"] };
+
+  return (
+    <>
+      <div
+        className=\\"builder-column div-309a9da5\\"
+        style={{
+          width: \\"100%\\",
+        }}
+      />
+      <style>{\`.div-309a9da5 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}\`}</style>
+    </>
+  );
+}
+
+export default MyComponent;
 "
 `;
 
@@ -2473,18 +2737,20 @@ exports[`RSC > jsx > Javascript Test > subComponent 1`] = `
 "import * as React from \\"react\\";
 import Foo from \\"./foo-sub-component.lite\\";
 
-export default function SubComponent(props) {
+function SubComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <Foo _context={_context} />;
 }
+
+export default SubComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > svgComponent 1`] = `
 "import * as React from \\"react\\";
 
-export default function SvgComponent(props) {
+function SvgComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2516,24 +2782,28 @@ export default function SvgComponent(props) {
     </svg>
   );
 }
+
+export default SvgComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > typeDependency 1`] = `
 "import * as React from \\"react\\";
 
-export default function TypeDependency(props) {
+function TypeDependency(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div>{props.foo}</div>;
 }
+
+export default TypeDependency;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > use-style 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2541,23 +2811,25 @@ export default function MyComponent(props) {
       <button type=\\"button\\">Button</button>
       <style>{\`
 
-      button {
-          background: blue;
-          color: white;
-          font-size: 12px;
-          outline: 1px solid black;
-      }
-  \`}</style>
+        button {
+            background: blue;
+            color: white;
+            font-size: 12px;
+            outline: 1px solid black;
+        }
+    \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > use-style-and-css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2566,25 +2838,27 @@ export default function MyComponent(props) {
         Button
       </button>
       <style>{\`.button-4fd6647d {
-background: blue;
-color: white;
+  background: blue;
+  color: white;
 }
 
-      button {
-          font-size: 12px;
-          outline: 1px solid black;
-      }
-  \`}</style>
+        button {
+            font-size: 12px;
+            outline: 1px solid black;
+        }
+    \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Javascript Test > use-style-outside-component 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2592,23 +2866,25 @@ export default function MyComponent(props) {
       <button type=\\"button\\">Button</button>
       <style>{\`
 
-button {
-    background: blue;
-    color: white;
-    font-size: 12px;
-    outline: 1px solid black;
-}
+  button {
+      background: blue;
+      color: white;
+      font-size: 12px;
+      outline: 1px solid black;
+  }
 \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Remove Internal mitosis package 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props) {
+function MyBasicComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
@@ -2620,6 +2896,8 @@ export default function MyBasicComponent(props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -2630,7 +2908,7 @@ export interface Props {
   showInput: boolean;
 }
 
-export default function MyBasicRefComponent(props: Props) {
+function MyBasicRefComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -2665,11 +2943,13 @@ export default function MyBasicRefComponent(props: Props) {
         Component!
       </div>
       <style>{\`.input-37c780bb {
-color: red;
+  color: red;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicRefComponent;
 "
 `;
 
@@ -2684,7 +2964,7 @@ export const DEFAULT_VALUES = {
   name: \\"Steve\\",
 };
 
-export default function MyBasicComponent(props: MyBasicComponentProps) {
+function MyBasicComponent(props: MyBasicComponentProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -2703,20 +2983,22 @@ export default function MyBasicComponent(props: MyBasicComponentProps) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-251ed544 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > Basic Context 1`] = `
 "import * as React from \\"react\\";
 import { useEffect } from \\"react\\";
-import { Injector, createInjector, MyService } from \\"@dummy/injection-js\\";
+import { createInjector, Injector, MyService } from \\"@dummy/injection-js\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -2732,7 +3014,7 @@ export default function MyBasicComponent(props: any) {
   useEffect(() => {
     const hi = myService.method(\\"hi\\");
     console.log(hi);
-  });
+  }, []);
 
   return (
     <div>
@@ -2742,6 +3024,8 @@ export default function MyBasicComponent(props: any) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -2754,14 +3038,14 @@ export interface Props {
   bye: string;
 }
 
-export default function MyBasicOnMountUpdateComponent(props: Props) {
+function MyBasicOnMountUpdateComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\", names: [\\"Steve\\", \\"PatrickJS\\"] };
 
   useEffect(() => {
     state.name = \\"PatrickJS onInit\\" + props.hi;
-  });
+  }, []);
 
   return (
     <div>
@@ -2770,43 +3054,51 @@ export default function MyBasicOnMountUpdateComponent(props: Props) {
     </div>
   );
 }
+
+export default MyBasicOnMountUpdateComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > Basic Outputs 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicOutputsComponent(props: any) {
+function MyBasicOutputsComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
 
   return <div />;
 }
+
+export default MyBasicOutputsComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > Basic Outputs Meta 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicOutputsComponent(props: any) {
+function MyBasicOutputsComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
 
   return <div />;
 }
+
+export default MyBasicOutputsComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > BasicAttribute 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input autoCapitalize=\\"on\\" autoComplete=\\"on\\" spellCheck={true} />;
 }
+
+export default MyComponent;
 "
 `;
 
@@ -2819,7 +3111,7 @@ type Props = {
 };
 import MyBooleanAttributeComponent from \\"./basic-boolean-attribute-component.raw\\";
 
-export default function MyBooleanAttribute(props: Props) {
+function MyBooleanAttribute(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -2836,15 +3128,17 @@ export default function MyBooleanAttribute(props: Props) {
     </div>
   );
 }
+
+export default MyBooleanAttribute;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > BasicChildComponent 1`] = `
 "import * as React from \\"react\\";
-import MyBasicComponent from \\"./basic.raw\\";
 import MyBasicOnMountUpdateComponent from \\"./basic-onMount-update.raw\\";
+import MyBasicComponent from \\"./basic.raw\\";
 
-export default function MyBasicChildComponent(props: any) {
+function MyBasicChildComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Steve\\", dev: \\"PatrickJS\\" };
@@ -2863,13 +3157,15 @@ export default function MyBasicChildComponent(props: any) {
     </div>
   );
 }
+
+export default MyBasicChildComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > BasicFor 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicForComponent(props: any) {
+function MyBasicForComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\", names: [\\"Steve\\", \\"PatrickJS\\"] };
@@ -2887,6 +3183,8 @@ export default function MyBasicForComponent(props: any) {
     </div>
   );
 }
+
+export default MyBasicForComponent;
 "
 `;
 
@@ -2897,7 +3195,7 @@ export interface Props {
   showInput: boolean;
 }
 
-export default function MyBasicRefComponent(props: Props) {
+function MyBasicRefComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -2932,11 +3230,13 @@ export default function MyBasicRefComponent(props: Props) {
         Component!
       </div>
       <style>{\`.input-37c780bb {
-color: red;
+  color: red;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicRefComponent;
 "
 `;
 
@@ -2947,11 +3247,11 @@ export interface Props {
   showInput: boolean;
 }
 
-export default function MyBasicRefAssignmentComponent(props: Props) {
+function MyBasicRefAssignmentComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
-    handlerClick: function handlerClick(event) {
+    handlerClick: function handlerClick(event: Event) {
       event.preventDefault();
       console.log(\\"current value\\", holdValueRef);
       holdValueRef = holdValueRef + \\"JS\\";
@@ -2964,6 +3264,8 @@ export default function MyBasicRefAssignmentComponent(props: Props) {
     </div>
   );
 }
+
+export default MyBasicRefAssignmentComponent;
 "
 `;
 
@@ -2987,7 +3289,7 @@ export function usePrevious<T>(value: T) {
   return ref;
 }
 
-export default function MyPreviousComponent(props: Props) {
+function MyPreviousComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { count: 0 };
@@ -3004,6 +3306,8 @@ export default function MyPreviousComponent(props: Props) {
     </div>
   );
 }
+
+export default MyPreviousComponent;
 "
 `;
 
@@ -3017,7 +3321,7 @@ export interface ButtonProps {
   openLinkInNewTab?: boolean;
 }
 
-export default function Button(props: ButtonProps) {
+function Button(props: ButtonProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3044,6 +3348,8 @@ export default function Button(props: ButtonProps) {
     </div>
   );
 }
+
+export default Button;
 "
 `;
 
@@ -3065,7 +3371,7 @@ export interface ColumnProps {
   reverseColumnsWhenStacked?: boolean;
 }
 
-export default function Column(props: ColumnProps) {
+function Column(props: ColumnProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -3075,11 +3381,11 @@ export default function Column(props: ColumnProps) {
     getGutterSize() {
       return typeof props.space === \\"number\\" ? props.space || 0 : 20;
     },
-    getWidth(index) {
+    getWidth(index: number) {
       const columns = state.getColumns();
       return (columns[index] && columns[index].width) || 100 / columns.length;
     },
-    getColumnCssWidth(index) {
+    getColumnCssWidth(index: number) {
       const columns = state.getColumns();
       const gutterSize = state.getGutterSize();
       const subtractWidth =
@@ -3090,26 +3396,28 @@ export default function Column(props: ColumnProps) {
 
   return (
     <>
-      <div className=\\"builder-columns div-033a66b8\\">
+      <div className=\\"builder-columns div-f83a82ca\\">
         {props.columns?.map((column, index) => (
-          <div className=\\"builder-column div-033a66b8-2\\">
+          <div className=\\"builder-column div-f83a82ca-2\\">
             {column.content}
 
             {index}
           </div>
         ))}
       </div>
-      <style>{\`.div-033a66b8 {
-display: flex;
-flex-direction: column;
-align-items: stretch;
-line-height: normal;
-}@media (max-width: 999px) { .div-033a66b8 {   flex-direction: row; } }@media (max-width: 639px) { .div-033a66b8 {   flex-direction: row-reverse; } }.div-033a66b8-2 {
-flex-grow: 1;
+      <style>{\`.div-f83a82ca {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+}@media (max-width: 999px) { .div-f83a82ca {   flex-direction: row; } }@media (max-width: 639px) { .div-f83a82ca {   flex-direction: row-reverse; } }.div-f83a82ca-2 {
+  flex-grow: 1;
 }\`}</style>
     </>
   );
 }
+
+export default Column;
 "
 `;
 
@@ -3120,8 +3428,9 @@ type Props = {
   [key: string]: string | JSX.Element;
   slotTesting: JSX.Element;
 };
+import type { JSX } from \\"../../../../jsx-runtime\\";
 
-export default function ContentSlotCode(props: Props) {
+function ContentSlotCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3136,6 +3445,8 @@ export default function ContentSlotCode(props: Props) {
     </div>
   );
 }
+
+export default ContentSlotCode;
 "
 `;
 
@@ -3145,26 +3456,55 @@ exports[`RSC > jsx > Typescript Test > ContentSlotJSX 1`] = `
 type Props = {
   [key: string]: string | JSX.Element;
 };
+import type { JSX } from \\"../../../../jsx-runtime\\";
 
-export default function ContentSlotJsxCode(props: Props) {
+function ContentSlotJsxCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
+  const state = {
+    name: \\"king\\",
+    showContent: false,
+    get cls() {
+      return props.slotContent && props.children ? \`\${state.name}-content\` : \\"\\";
+    },
+    show() {
+      props.slotContent ? 1 : \\"\\";
+    },
+  };
+
   return (
-    <div>
-      {props.slotTesting ? (
+    <>
+      {props.slotReference ? (
         <>
-          <div>{props.slotTesting}</div>
+          <div
+            name={props.slotContent ? \\"name1\\" : \\"name2\\"}
+            title={props.slotContent ? \\"title1\\" : \\"title2\\"}
+            {...props.attributes}
+            className={state.cls}
+          >
+            {state.showContent && props.slotContent ? (
+              <>{props.slotContent || \\"{props.content}\\"}</>
+            ) : null}
+
+            <div>
+              <hr />
+            </div>
+
+            <div>{props.children}</div>
+          </div>
         </>
       ) : null}
-
-      <div>
-        <hr />
-      </div>
-
-      <div>{props.children}</div>
-    </div>
+    </>
   );
 }
+
+ContentSlotJsxCode.defaultProps = {
+  content: \\"\\",
+  slotReference: undefined,
+  slotContent: undefined,
+};
+
+export default ContentSlotJsxCode;
 "
 `;
 
@@ -3176,7 +3516,7 @@ export interface CustomCodeProps {
   replaceNodes?: boolean;
 }
 
-export default function CustomCode(props: CustomCodeProps) {
+function CustomCode(props: CustomCodeProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -3234,6 +3574,8 @@ export default function CustomCode(props: CustomCodeProps) {
     />
   );
 }
+
+export default CustomCode;
 "
 `;
 
@@ -3245,7 +3587,7 @@ export interface CustomCodeProps {
   replaceNodes?: boolean;
 }
 
-export default function CustomCode(props: CustomCodeProps) {
+function CustomCode(props: CustomCodeProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -3303,6 +3645,8 @@ export default function CustomCode(props: CustomCodeProps) {
     />
   );
 }
+
+export default CustomCode;
 "
 `;
 
@@ -3332,13 +3676,15 @@ export interface FormProps {
   errorMessagePath?: string;
 }
 export type FormState = \\"unsubmitted\\" | \\"sending\\" | \\"success\\" | \\"error\\";
-import { BuilderBlock as BuilderBlockComponent } from \\"@fake\\";
-import { Builder, builder } from \\"@builder.io/sdk\\";
-import { BuilderBlocks } from \\"@fake\\";
-import { set } from \\"@fake\\";
-import { get } from \\"@fake\\";
+import { Builder, builder, BuilderElement } from \\"@builder.io/sdk\\";
+import {
+  BuilderBlock as BuilderBlockComponent,
+  BuilderBlocks,
+  get,
+  set,
+} from \\"@fake\\";
 
-export default function FormComponent(props: FormProps) {
+function FormComponent(props: FormProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -3348,7 +3694,11 @@ export default function FormComponent(props: FormProps) {
     get submissionState() {
       return (Builder.isEditing && props.previewState) || state.formState;
     },
-    onSubmit(event) {
+    onSubmit(
+      event: Event & {
+        currentTarget: HTMLFormElement;
+      }
+    ) {
       const sendWithJs =
         props.sendWithJs || props.sendSubmissionsTo === \\"email\\";
 
@@ -3363,16 +3713,19 @@ export default function FormComponent(props: FormProps) {
         event.preventDefault();
         const el = event.currentTarget;
         const headers = props.customHeaders || {};
-        let body;
+        let body: any;
         const formData = new FormData(el); // TODO: maybe support null
 
-        const formPairs = Array.from(
+        const formPairs: {
+          key: string;
+          value: File | boolean | number | string | FileList;
+        }[] = Array.from(
           event.currentTarget.querySelectorAll(\\"input,select,textarea\\")
         )
-          .filter((el) => !!el.name)
+          .filter((el) => !!(el as HTMLInputElement).name)
           .map((el) => {
-            let value;
-            const key = el.name;
+            let value: any;
+            const key = (el as HTMLImageElement).name;
 
             if (el instanceof HTMLInputElement) {
               if (el.type === \\"radio\\") {
@@ -3398,7 +3751,7 @@ export default function FormComponent(props: FormProps) {
                 value = el.value;
               }
             } else {
-              value = el.value;
+              value = (el as HTMLInputElement).value;
             }
 
             return {
@@ -3462,7 +3815,7 @@ export default function FormComponent(props: FormProps) {
         fetch(
           props.sendSubmissionsTo === \\"email\\"
             ? formUrl
-            : props.action /* TODO: throw error if no action URL */,
+            : props.action! /* TODO: throw error if no action URL */,
           { body, headers, method: props.method || \\"post\\" }
         ).then(
           async (res) => {
@@ -3478,7 +3831,7 @@ export default function FormComponent(props: FormProps) {
                 get(body, props.errorMessagePath);
               if (message) {
                 if (typeof message !== \\"string\\") {
-                  /* TODO: ideally convert json to yaml so it woul dbe like            error: - email has been taken */ message =
+                  /* TODO: ideally convert json to yaml so it woul dbe like          error: - email has been taken */ message =
                     JSON.stringify(message);
                 }
                 state.formErrorMessage = message;
@@ -3562,7 +3915,7 @@ export default function FormComponent(props: FormProps) {
           <>
             <BuilderBlocks
               dataPath=\\"errorMessage\\"
-              blocks={props.errorMessage}
+              blocks={props.errorMessage!}
               _context={_context}
             />
           </>
@@ -3571,14 +3924,14 @@ export default function FormComponent(props: FormProps) {
           <>
             <BuilderBlocks
               dataPath=\\"sendingMessage\\"
-              blocks={props.sendingMessage}
+              blocks={props.sendingMessage!}
               _context={_context}
             />
           </>
         ) : null}{\\" \\"}
         {state.submissionState === \\"error\\" && state.responseData ? (
           <>
-            <pre className=\\"builder-form-error-text pre-170708b2\\">
+            <pre className=\\"builder-form-error-text pre-5410025b\\">
               {\\" \\"}
               {JSON.stringify(state.responseData, null, 2)}{\\" \\"}
             </pre>
@@ -3588,16 +3941,17 @@ export default function FormComponent(props: FormProps) {
           <>
             <BuilderBlocks
               dataPath=\\"successMessage\\"
-              blocks={props.successMessage}
+              blocks={props.successMessage!}
               _context={_context}
             />
           </>
         ) : null}{\\" \\"}
       </form>{\\" \\"}
-      <style>{\`.pre-170708b2 { padding: 10px; color: red; text-align: center; }\`}</style>{\\" \\"}
+      <style>{\`.pre-5410025b {   padding: 10px;   color: red;   text-align: center; }\`}</style>{\\" \\"}
     </>
   );
 }
+export default FormComponent;
 "
 `;
 
@@ -3623,7 +3977,7 @@ export interface ImageProps {
   children?: any;
 }
 
-export default function Image(props: ImageProps) {
+function Image(props: ImageProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -3672,21 +4026,23 @@ export default function Image(props: ImageProps) {
         {props.children}
       </div>
       <style>{\`.img-ccac6a98 {
-opacity: 1;
-transition: opacity 0.2s ease-in-out;
-object-fit: cover;
-object-position: center;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+  object-fit: cover;
+  object-position: center;
 }\`}</style>
     </>
   );
 }
+
+export default Image;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > Image State 1`] = `
 "import * as React from \\"react\\";
 
-export default function ImgStateComponent(props: any) {
+function ImgStateComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { canShow: true, images: [\\"http://example.com/qwik.png\\"] };
@@ -3701,6 +4057,8 @@ export default function ImgStateComponent(props: any) {
     </div>
   );
 }
+
+export default ImgStateComponent;
 "
 `;
 
@@ -3726,7 +4084,7 @@ export interface ImgProps {
 
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function ImgComponent(props: ImgProps) {
+function ImgComponent(props: ImgProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3742,6 +4100,8 @@ export default function ImgComponent(props: ImgProps) {
     />
   );
 }
+
+export default ImgComponent;
 "
 `;
 
@@ -3760,7 +4120,7 @@ export interface FormInputProps {
 
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function FormInputComponent(props: FormInputProps) {
+function FormInputComponent(props: FormInputProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3780,6 +4140,8 @@ export default function FormInputComponent(props: FormInputProps) {
     />
   );
 }
+
+export default FormInputComponent;
 "
 `;
 
@@ -3791,7 +4153,7 @@ export interface RawTextProps {
   text?: string; // builderBlock?: any;
 }
 
-export default function RawText(props: RawTextProps) {
+function RawText(props: RawTextProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3801,6 +4163,8 @@ export default function RawText(props: RawTextProps) {
     />
   );
 }
+
+export default RawText;
 "
 `;
 
@@ -3813,7 +4177,7 @@ export interface SectionProps {
   children?: any;
 }
 
-export default function SectionComponent(props: SectionProps) {
+function SectionComponent(props: SectionProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3831,6 +4195,8 @@ export default function SectionComponent(props: SectionProps) {
     </section>
   );
 }
+
+export default SectionComponent;
 "
 `;
 
@@ -3850,7 +4216,7 @@ export interface FormSelectProps {
 
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function SelectComponent(props: FormSelectProps) {
+function SelectComponent(props: FormSelectProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3873,6 +4239,8 @@ export default function SelectComponent(props: FormSelectProps) {
     </select>
   );
 }
+
+export default SelectComponent;
 "
 `;
 
@@ -3883,11 +4251,13 @@ type Props = {
   [key: string]: string;
 };
 
-export default function SlotCode(props: Props) {
+function SlotCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div slotContext={_context}></div>;
 }
+
+export default SlotCode;
 "
 `;
 
@@ -3899,7 +4269,7 @@ type Props = {
 };
 import ContentSlotCode from \\"./content-slot-jsx.raw\\";
 
-export default function SlotCode(props: Props) {
+function SlotCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3911,6 +4281,8 @@ export default function SlotCode(props: Props) {
     </div>
   );
 }
+
+export default SlotCode;
 "
 `;
 
@@ -3922,7 +4294,7 @@ type Props = {
 };
 import ContentSlotCode from \\"./content-slot-jsx.raw\\";
 
-export default function SlotCode(props: Props) {
+function SlotCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -3931,6 +4303,8 @@ export default function SlotCode(props: Props) {
     </div>
   );
 }
+
+export default SlotCode;
 "
 `;
 
@@ -3941,19 +4315,19 @@ type Props = {
   [key: string]: string;
 };
 
-export default function SlotCode(props: Props) {
+function SlotCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
     <div slotContext={_context}>
       {props.slotTop}
 
-      {props.slotLeft}
+      {props.slotLeft || \\"Default left\\"}
     </div>
   );
 }
 
-SlotCode.defaultProps = { slotLeft: \\"Default left\\" };
+export default SlotCode;
 "
 `;
 
@@ -3964,10 +4338,9 @@ type SmileReviewsProps = {
   productId: string;
   apiKey: string;
 };
-import { kebabCase } from \\"lodash\\";
-import { snakeCase } from \\"lodash\\";
+import { kebabCase, snakeCase } from \\"lodash\\";
 
-export default function SmileReviews(props: SmileReviewsProps) {
+function SmileReviews(props: SmileReviewsProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -3990,18 +4363,18 @@ export default function SmileReviews(props: SmileReviewsProps) {
         {state.showReviewPrompt || \\"asdf\\" ? (
           <>
             <input placeholder=\\"Email\\" />
-            <input placeholder=\\"Title\\" className=\\"input-000d4b30\\" />
+            <input placeholder=\\"Title\\" className=\\"input-6aea881e\\" />
             <textarea
               placeholder=\\"How was your experience?\\"
-              className=\\"textarea-000d4b30\\"
+              className=\\"textarea-6aea881e\\"
             />
-            <button className=\\"button-000d4b30\\">Submit</button>
+            <button className=\\"button-6aea881e\\">Submit</button>
           </>
         ) : null}
 
         {state.reviews?.map((review, index) => (
-          <div className=\\"review-000d4b30\\" key={review.id}>
-            <img className=\\"img-000d4b30\\" src={review.avatar} />
+          <div className=\\"review-6aea881e\\" key={review.id}>
+            <img className=\\"img-6aea881e\\" src={review.avatar} />
 
             <div
               className={state.showReviewPrompt ? \\"bg-primary\\" : \\"bg-secondary\\"}
@@ -4018,27 +4391,29 @@ export default function SmileReviews(props: SmileReviewsProps) {
           </div>
         ))}
       </div>
-      <style>{\`.input-000d4b30 {
-display: block;
-}.textarea-000d4b30 {
-display: block;
-}.button-000d4b30 {
-display: block;
-}.review-000d4b30 {
-margin: 10px;
-padding: 10px;
-background: white;
-display: flex;
-border-radius: 5px;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}.img-000d4b30 {
-height: 30px;
-width: 30px;
-margin-right: 10px;
+      <style>{\`.input-6aea881e {
+  display: block;
+}.textarea-6aea881e {
+  display: block;
+}.button-6aea881e {
+  display: block;
+}.review-6aea881e {
+  margin: 10px;
+  padding: 10px;
+  background: white;
+  display: flex;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}.img-6aea881e {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default SmileReviews;
 "
 `;
 
@@ -4050,7 +4425,7 @@ export interface ButtonProps {
   text?: string;
 }
 
-export default function SubmitButton(props: ButtonProps) {
+function SubmitButton(props: ButtonProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4059,6 +4434,8 @@ export default function SubmitButton(props: ButtonProps) {
     </button>
   );
 }
+
+export default SubmitButton;
 "
 `;
 
@@ -4075,7 +4452,7 @@ export interface TextProps {
 
 import { Builder } from \\"@builder.io/sdk\\";
 
-export default function Text(props: TextProps) {
+function Text(props: TextProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Decadef20\\" };
@@ -4096,6 +4473,8 @@ export default function Text(props: TextProps) {
     />
   );
 }
+
+export default Text;
 "
 `;
 
@@ -4110,7 +4489,7 @@ export interface TextareaProps {
   placeholder?: string;
 }
 
-export default function Textarea(props: TextareaProps) {
+function Textarea(props: TextareaProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4123,6 +4502,8 @@ export default function Textarea(props: TextareaProps) {
     />
   );
 }
+
+export default Textarea;
 "
 `;
 
@@ -4155,7 +4536,7 @@ export interface VideoProps {
   lazyLoad?: boolean;
 }
 
-export default function Video(props: VideoProps) {
+function Video(props: VideoProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4181,13 +4562,15 @@ export default function Video(props: VideoProps) {
     />
   );
 }
+
+export default Video;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > arrowFunctionInUseStore 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -4207,6 +4590,42 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
+"
+`;
+
+exports[`RSC > jsx > Typescript Test > basicForNoTagReference 1`] = `
+"import * as React from \\"react\\";
+
+function MyBasicForNoTagRefComponent(props: any) {
+  const _context = { ...props[\\"_context\\"] };
+
+  const state = {
+    name: \\"VincentW\\",
+    TagName: \\"div\\",
+    tag: \\"span\\",
+    get TagNameGetter() {
+      return \\"span\\";
+    },
+  };
+
+  return (
+    <state.TagNameGetter _context={_context}>
+      Hello
+      <state.tag>{state.name}</state.tag>
+      {props.actions?.map((action) => (
+        <state.TagName _context={_context}>
+          <action.icon />
+
+          <span>{action.text}</span>
+        </state.TagName>
+      ))}
+    </state.TagNameGetter>
+  );
+}
+
+export default MyBasicForNoTagRefComponent;
 "
 `;
 
@@ -4218,7 +4637,7 @@ export interface Props {
   inputRef: HTMLInputElement;
 }
 
-export default function MyBasicForwardRefComponent(props: Props) {
+function MyBasicForwardRefComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
@@ -4229,11 +4648,13 @@ export default function MyBasicForwardRefComponent(props: Props) {
         <input className=\\"input-346a570f\\" value={state.name} />
       </div>
       <style>{\`.input-346a570f {
-color: red;
+  color: red;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicForwardRefComponent;
 "
 `;
 
@@ -4245,32 +4666,33 @@ export interface Props {
   inputRef: HTMLInputElement;
 }
 
-export default forwardRef(function MyBasicForwardRefComponent(
-  props: Props,
-  inputRef
-) {
-  const _context = { ...props[\\"_context\\"] };
+const MyBasicForwardRefComponent = forwardRef(
+  function MyBasicForwardRefComponent(props: Props, inputRef) {
+    const _context = { ...props[\\"_context\\"] };
 
-  const state = { name: \\"PatrickJS\\" };
+    const state = { name: \\"PatrickJS\\" };
 
-  return (
-    <>
-      <div>
-        <input className=\\"input-52d8b09f\\" value={state.name} />
-      </div>
-      <style>{\`.input-52d8b09f {
-color: red;
+    return (
+      <>
+        <div>
+          <input className=\\"input-52d8b09f\\" value={state.name} />
+        </div>
+        <style>{\`.input-52d8b09f {
+  color: red;
 }\`}</style>
-    </>
-  );
-});
+      </>
+    );
+  }
+);
+
+export default MyBasicForwardRefComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > basicOnUpdateReturn 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicOnUpdateReturnComponent(props: any) {
+function MyBasicOnUpdateReturnComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"PatrickJS\\" };
@@ -4282,13 +4704,15 @@ export default function MyBasicOnUpdateReturnComponent(props: any) {
     </div>
   );
 }
+
+export default MyBasicOnUpdateReturnComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > class + ClassName + css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4297,18 +4721,20 @@ export default function MyBasicComponent(props: any) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-0a30b052 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > class + css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4317,18 +4743,20 @@ export default function MyBasicComponent(props: any) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-3e236934 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > className + css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4337,11 +4765,13 @@ export default function MyBasicComponent(props: any) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-3e236934 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4352,8 +4782,9 @@ type Props = {
   [key: string]: string | JSX.Element;
   slotTesting: JSX.Element;
 };
+import type { JSX } from \\"../../../../jsx-runtime\\";
 
-export default function ClassNameCode(props: Props) {
+function ClassNameCode(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { bindings: \\"a binding\\" };
@@ -4366,13 +4797,15 @@ export default function ClassNameCode(props: Props) {
     </div>
   );
 }
+
+export default ClassNameCode;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > classState 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -4391,11 +4824,13 @@ export default function MyBasicComponent(props: any) {
         Hello! I can run in React, Vue, Solid, or Liquid!
       </div>
       <style>{\`.div-a140d134 {
-padding: 10px;
+  padding: 10px;
 }\`}</style>
     </>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4409,7 +4844,7 @@ export interface ComponentWithContextProps {
 import Context1 from \\"@dummy/1\\";
 import Context2 from \\"@dummy/2\\";
 
-export default function ComponentWithContext(props: ComponentWithContextProps) {
+function ComponentWithContext(props: ComponentWithContextProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const foo = _context[\\"Context1\\"];
@@ -4425,6 +4860,8 @@ export default function ComponentWithContext(props: ComponentWithContextProps) {
 
   return <>{foo.value}</>;
 }
+
+export default ComponentWithContext;
 "
 `;
 
@@ -4438,7 +4875,7 @@ export interface ComponentWithContextProps {
 import Context1 from \\"@dummy/1\\";
 import Context2 from \\"@dummy/2\\";
 
-export default function ComponentWithContext(props: ComponentWithContextProps) {
+function ComponentWithContext(props: ComponentWithContextProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const foo = _context[\\"Context1\\"];
@@ -4460,6 +4897,8 @@ export default function ComponentWithContext(props: ComponentWithContextProps) {
     </>
   );
 }
+
+export default ComponentWithContext;
 "
 `;
 
@@ -4467,7 +4906,7 @@ exports[`RSC > jsx > Typescript Test > contentState 1`] = `
 "import * as React from \\"react\\";
 import BuilderContext from \\"@dummy/context.lite\\";
 
-export default function RenderContent(props: any) {
+function RenderContent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   _context.BuilderContext = {
@@ -4477,6 +4916,8 @@ export default function RenderContent(props: any) {
 
   return <div>setting context</div>;
 }
+
+export default RenderContent;
 "
 `;
 
@@ -4493,7 +4934,7 @@ export interface ButtonProps {
   onClick?: () => void;
 }
 
-export default function Button(props: ButtonProps) {
+function Button(props: ButtonProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4529,6 +4970,8 @@ Button.defaultProps = {
     console.log(\\"hi\\");
   },
 };
+
+export default Button;
 "
 `;
 
@@ -4543,7 +4986,7 @@ export interface ButtonProps {
   onClick: () => void;
 }
 
-export default function Button(props: ButtonProps) {
+function Button(props: ButtonProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4577,6 +5020,8 @@ Button.defaultProps = {
   openLinkInNewTab: false,
   onClick: () => {},
 };
+
+export default Button;
 "
 `;
 
@@ -4591,7 +5036,7 @@ const DEFAULT_VALUES: Props = {
   name: \\"Sami\\",
 };
 
-export default function ComponentWithTypes(props: Props) {
+function ComponentWithTypes(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4602,13 +5047,15 @@ export default function ComponentWithTypes(props: Props) {
     </div>
   );
 }
+
+export default ComponentWithTypes;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > expressionState 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -4619,6 +5066,8 @@ export default function MyComponent(props: any) {
 
   return <div>{state.refToUse}</div>;
 }
+
+export default MyComponent;
 "
 `;
 
@@ -4630,9 +5079,10 @@ type RenderContentProps = {
   content: BuilderContent;
   renderContentProps: RenderBlockProps;
 };
-import RenderBlock from \\"./builder-render-block.raw\\";
+import { BuilderContent, GetContentOptions } from \\"@builder.io/sdk\\";
+import RenderBlock, { RenderBlockProps } from \\"./builder-render-block.raw\\";
 
-export default function RenderContent(props: RenderContentProps) {
+function RenderContent(props: RenderContentProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -4651,37 +5101,43 @@ export default function RenderContent(props: RenderContentProps) {
     />
   );
 }
+
+export default RenderContent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > multipleOnUpdate 1`] = `
 "import * as React from \\"react\\";
 
-export default function MultipleOnUpdate(props: any) {
+function MultipleOnUpdate(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default MultipleOnUpdate;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > multipleOnUpdateWithDeps 1`] = `
 "import * as React from \\"react\\";
 
-export default function MultipleOnUpdateWithDeps(props: any) {
+function MultipleOnUpdateWithDeps(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { a: \\"a\\", b: \\"b\\", c: \\"c\\", d: \\"d\\" };
 
   return <div />;
 }
+
+export default MultipleOnUpdateWithDeps;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > multipleSpreads 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -4692,6 +5148,8 @@ export default function MyBasicComponent(props: any) {
 
   return <input {...state.attrs} {...props} />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4703,7 +5161,7 @@ interface Props {
   conditionB: boolean;
 }
 
-export default function NestedShow(props: Props) {
+function NestedShow(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4724,29 +5182,40 @@ export default function NestedShow(props: Props) {
     </>
   );
 }
+
+export default NestedShow;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > nestedStyles 1`] = `
 "import * as React from \\"react\\";
 
-export default function NestedStyles(props: any) {
+function NestedStyles(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
     <>
-      <div className=\\"div-caf6a574\\">Hello world</div>
-      <style>{\`.div-caf6a574 {
-display: flex;
-foo: var(--bar);
-}@media (max-width: env(--mobile)) { .div-caf6a574 {   display: block; } }.div-caf6a574:hover {
-display: flex;
-}.div-caf6a574 .nested-selector {
-display: grid;
+      <div className=\\"div-1322de04\\">Hello world</div>
+      <style>{\`.div-1322de04 {
+  display: flex;
+  --bar: red;
+  color: var(--bar);
+}@media (max-width: env(--mobile)) { .div-1322de04 {   display: block; } }.div-1322de04:hover {
+  display: flex;
+}.div-1322de04:active {
+  display: inline;
+}.div-1322de04 .nested-selector {
+  display: grid;
+}.div-1322de04 .nested-selector:hover {
+  display: block;
+}.div-1322de04.nested-selector:active {
+  display: inline-block;
 }\`}</style>
     </>
   );
 }
+
+export default NestedStyles;
 "
 `;
 
@@ -4754,15 +5223,17 @@ exports[`RSC > jsx > Typescript Test > onInit & onMount 1`] = `
 "import * as React from \\"react\\";
 import { useEffect } from \\"react\\";
 
-export default function OnInit(props: any) {
+function OnInit(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   useEffect(() => {
     console.log(\\"onInit\\");
-  });
+  }, []);
 
   return <div />;
 }
+
+export default OnInit;
 "
 `;
 
@@ -4778,7 +5249,7 @@ export const defaultValues = {
   name: \\"PatrickJS\\",
 };
 
-export default function OnInit(props: Props) {
+function OnInit(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"\\" };
@@ -4786,7 +5257,7 @@ export default function OnInit(props: Props) {
   useEffect(() => {
     state.name = defaultValues.name || props.name;
     console.log(\\"set defaults with props\\");
-  });
+  }, []);
 
   return (
     <div>
@@ -4795,28 +5266,34 @@ export default function OnInit(props: Props) {
     </div>
   );
 }
+
+export default OnInit;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > onMount 1`] = `
 "import * as React from \\"react\\";
 
-export default function Comp(props: any) {
+function Comp(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default Comp;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > onUpdate 1`] = `
 "import * as React from \\"react\\";
 
-export default function OnUpdate(props: any) {
+function OnUpdate(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default OnUpdate;
 "
 `;
 
@@ -4827,13 +5304,15 @@ type Props = {
   size: string;
 };
 
-export default function OnUpdateWithDeps(props: Props) {
+function OnUpdateWithDeps(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { a: \\"a\\", b: \\"b\\" };
 
   return <div />;
 }
+
+export default OnUpdateWithDeps;
 "
 `;
 
@@ -4856,11 +5335,13 @@ export const a = 3;
 export const bar = () => {};
 export function run<T>(value: T) {}
 
-export default function MyBasicComponent(props: MyBasicComponentProps) {
+function MyBasicComponent(props: MyBasicComponentProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4880,7 +5361,7 @@ export interface MyBasicComponentProps {
   age?: number;
 }
 
-export default function MyBasicComponent(props: MyBasicComponentProps) {
+function MyBasicComponent(props: MyBasicComponentProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4890,6 +5371,8 @@ export default function MyBasicComponent(props: MyBasicComponentProps) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4901,7 +5384,7 @@ type Props = {
   type: string;
 };
 
-export default function MyBasicComponent(props: Props) {
+function MyBasicComponent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Decadef20\\" };
@@ -4914,6 +5397,8 @@ export default function MyBasicComponent(props: Props) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4925,7 +5410,7 @@ interface Person {
   age?: number;
 }
 
-export default function MyBasicComponent(props: Person | never) {
+function MyBasicComponent(props: Person | never) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4935,6 +5420,8 @@ export default function MyBasicComponent(props: Person | never) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
@@ -4946,7 +5433,7 @@ type Person = {
   age?: number;
 };
 
-export default function MyBasicComponent(props: Person) {
+function MyBasicComponent(props: Person) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -4956,13 +5443,15 @@ export default function MyBasicComponent(props: Person) {
     </div>
   );
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > referencingFunInsideHook 1`] = `
 "import * as React from \\"react\\";
 
-export default function OnUpdate(props: any) {
+function OnUpdate(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -4977,39 +5466,42 @@ export default function OnUpdate(props: any) {
 
   return <div />;
 }
+
+export default OnUpdate;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > renderBlock 1`] = `
 "import * as React from \\"react\\";
-import type {
-  BuilderContextInterface,
-  RegisteredComponent,
-} from \\"../../context/types.js\\";
-import type { BuilderBlock } from \\"../../types/builder-block.js\\";
-import type { Nullable } from \\"../../types/typescript.js\\";
-import type { RenderComponentProps } from \\"./render-component\\";
-import type { RepeatData } from \\"./types.js\\";
+
 export type RenderBlockProps = {
   block: BuilderBlock;
   context: BuilderContextInterface;
 };
+import { TARGET } from \\"../../constants/target.js\\";
+import type {
+  BuilderContextInterface,
+  RegisteredComponent,
+} from \\"../../context/types.js\\";
+import { evaluate } from \\"../../functions/evaluate.js\\";
+import { extractTextStyles } from \\"../../functions/extract-text-styles.js\\";
 import { getBlockActions } from \\"../../functions/get-block-actions.js\\";
 import { getBlockComponentOptions } from \\"../../functions/get-block-component-options.js\\";
 import { getBlockProperties } from \\"../../functions/get-block-properties.js\\";
 import { getBlockTag } from \\"../../functions/get-block-tag.js\\";
 import { getProcessedBlock } from \\"../../functions/get-processed-block.js\\";
-import { evaluate } from \\"../../functions/evaluate.js\\";
+import { getReactNativeBlockStyles } from \\"../../functions/get-react-native-block-styles.js\\";
+import type { BuilderBlock } from \\"../../types/builder-block.js\\";
+import type { Nullable } from \\"../../types/typescript.js\\";
 import BlockStyles from \\"./block-styles.lite\\";
 import { isEmptyHtmlElement } from \\"./render-block.helpers.js\\";
-import RenderRepeatedBlock from \\"./render-repeated-block.lite\\";
-import { TARGET } from \\"../../constants/target.js\\";
-import { extractTextStyles } from \\"../../functions/extract-text-styles.js\\";
 import RenderComponentWithContext from \\"./render-component-with-context.lite\\";
+import type { RenderComponentProps } from \\"./render-component.lite\\";
 import RenderComponent from \\"./render-component.lite\\";
-import { getReactNativeBlockStyles } from \\"../../functions/get-react-native-block-styles.js\\";
+import RenderRepeatedBlock from \\"./render-repeated-block.lite\\";
+import type { RepeatData } from \\"./types.js\\";
 
-export default function RenderBlock(props: RenderBlockProps) {
+function RenderBlock(props: RenderBlockProps) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -5030,8 +5522,8 @@ export default function RenderBlock(props: RenderBlockProps) {
       if (!ref) {
         // TODO: Public doc page with more info about this message
         console.warn(\`
-        Could not find a registered component named \\"\${componentName}\\". 
-        If you registered it, is the file that registered it imported by the file that needs to render it?\`);
+          Could not find a registered component named \\"\${componentName}\\".
+          If you registered it, is the file that registered it imported by the file that needs to render it?\`);
         return undefined;
       } else {
         return ref;
@@ -5138,7 +5630,7 @@ export default function RenderBlock(props: RenderBlockProps) {
       const collectionName = repeat.collection.split(\\".\\").pop();
       const itemNameToUse =
         repeat.itemName || (collectionName ? collectionName + \\"Item\\" : \\"item\\");
-      const repeatArray = itemsArray.map((item, index) => ({
+      const repeatArray = itemsArray.map<RepeatData>((item, index) => ({
         context: {
           ...props.context,
           state: {
@@ -5188,16 +5680,13 @@ export default function RenderBlock(props: RenderBlockProps) {
     componentInfo: null,
   };
 
-  const RenderComponentTagRef = state.renderComponentTag;
-  const TagRef = state.tag;
-
   return (
     <>
       {state.shouldWrap ? (
         <>
           {isEmptyHtmlElement(state.tag) ? (
             <>
-              <TagRef {...state.attributes} {...state.actions} />
+              <state.tag {...state.attributes} {...state.actions} />
             </>
           ) : null}
           {!isEmptyHtmlElement(state.tag) && state.repeatItemData ? (
@@ -5214,8 +5703,8 @@ export default function RenderBlock(props: RenderBlockProps) {
           ) : null}
           {!isEmptyHtmlElement(state.tag) && !state.repeatItemData ? (
             <>
-              <TagRef {...state.attributes} {...state.actions}>
-                <RenderComponentTagRef
+              <state.tag {...state.attributes} {...state.actions}>
+                <state.renderComponentTag
                   {...state.renderComponentProps}
                   _context={_context}
                 />
@@ -5237,19 +5726,23 @@ export default function RenderBlock(props: RenderBlockProps) {
                     _context={_context}
                   />
                 ))}
-              </TagRef>
+              </state.tag>
             </>
           ) : null}
         </>
       ) : (
-        <RenderComponentTagRef
-          {...state.renderComponentProps}
-          _context={_context}
-        />
+        <>
+          <state.renderComponentTag
+            {...state.renderComponentProps}
+            _context={_context}
+          />
+        </>
       )}
     </>
   );
 }
+
+export default RenderBlock;
 "
 `;
 
@@ -5263,15 +5756,15 @@ type Props = {
     id: string;
   };
 };
+import BuilderContext from \\"@dummy/context.lite\\";
 import {
-  sendComponentsToVisualEditor,
   dispatchNewContentToVisualEditor,
+  sendComponentsToVisualEditor,
   trackClick,
 } from \\"@dummy/injection-js\\";
-import BuilderContext from \\"@dummy/context.lite\\";
 import RenderBlocks from \\"@dummy/RenderBlocks.lite.tsx\\";
 
-export default function RenderContent(props: Props) {
+function RenderContent(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   _context.BuilderContext = {
@@ -5285,16 +5778,18 @@ export default function RenderContent(props: Props) {
 
   return (
     <>
-      <div className=\\"div-a387715c\\">
+      <div className=\\"div-488069a0\\">
         <RenderBlocks blocks={props.content.blocks} _context={_context} />
       </div>
-      <style>{\`.div-a387715c {
-display: flex;
-flex-direction: columns;
+      <style>{\`.div-488069a0 {
+  display: flex;
+  flex-direction: columns;
 }\`}</style>
     </>
   );
 }
+
+export default RenderContent;
 "
 `;
 
@@ -5308,7 +5803,7 @@ export interface ButtonProps {
   openLinkInNewTab?: boolean;
 }
 
-export default function Button(props: ButtonProps) {
+function Button(props: ButtonProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5335,6 +5830,8 @@ export default function Button(props: ButtonProps) {
     </>
   );
 }
+
+export default Button;
 "
 `;
 
@@ -5345,7 +5842,7 @@ export interface RenderStylesProps {
   foo: string;
 }
 
-export default function RenderStyles(props: RenderStylesProps) {
+function RenderStyles(props: RenderStylesProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5360,13 +5857,15 @@ export default function RenderStyles(props: RenderStylesProps) {
     </>
   );
 }
+
+export default RenderStyles;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > self-referencing component 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5381,13 +5880,15 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > self-referencing component with children 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5406,6 +5907,8 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
@@ -5417,7 +5920,7 @@ interface Props {
   items: string[];
 }
 
-export default function NestedShow(props: Props) {
+function NestedShow(props: Props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5434,39 +5937,91 @@ export default function NestedShow(props: Props) {
     </>
   );
 }
+
+export default NestedShow;
+"
+`;
+
+exports[`RSC > jsx > Typescript Test > showWithRootText 1`] = `
+"import * as React from \\"react\\";
+
+interface Props {
+  conditionA: boolean;
+}
+
+function ShowRootText(props: Props) {
+  const _context = { ...props[\\"_context\\"] };
+
+  return <>{props.conditionA ? <>ContentA</> : <div>else-condition-A</div>}</>;
+}
+
+export default ShowRootText;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > spreadAttrs 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input {...attrs} />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > spreadNestedProps 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input {...props.nested} />;
 }
+
+export default MyBasicComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > spreadProps 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyBasicComponent(props: any) {
+function MyBasicComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <input {...props} />;
 }
+
+export default MyBasicComponent;
+"
+`;
+
+exports[`RSC > jsx > Typescript Test > styleClassAndCss 1`] = `
+"import * as React from \\"react\\";
+
+function MyComponent(props: any) {
+  const _context = { ...props[\\"_context\\"] };
+
+  return (
+    <>
+      <div
+        className=\\"builder-column div-309a9da5\\"
+        style={{
+          width: \\"100%\\",
+        }}
+      />
+      <style>{\`.div-309a9da5 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}\`}</style>
+    </>
+  );
+}
+
+export default MyComponent;
 "
 `;
 
@@ -5474,18 +6029,20 @@ exports[`RSC > jsx > Typescript Test > subComponent 1`] = `
 "import * as React from \\"react\\";
 import Foo from \\"./foo-sub-component.lite\\";
 
-export default function SubComponent(props: any) {
+function SubComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <Foo _context={_context} />;
 }
+
+export default SubComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > svgComponent 1`] = `
 "import * as React from \\"react\\";
 
-export default function SvgComponent(props: any) {
+function SvgComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5517,30 +6074,35 @@ export default function SvgComponent(props: any) {
     </svg>
   );
 }
+
+export default SvgComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > typeDependency 1`] = `
 "import * as React from \\"react\\";
-import type { Foo } from \\"./foo-type\\";
-import type { Foo as Foo2 } from \\"./type-export\\";
+
 export type TypeDependencyProps = {
   foo: Foo;
   foo2: Foo2;
 };
+import type { Foo } from \\"./foo-type\\";
+import type { Foo as Foo2 } from \\"./type-export.lite\\";
 
-export default function TypeDependency(props: TypeDependencyProps) {
+function TypeDependency(props: TypeDependencyProps) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div>{props.foo}</div>;
 }
+
+export default TypeDependency;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > use-style 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5548,23 +6110,25 @@ export default function MyComponent(props: any) {
       <button type=\\"button\\">Button</button>
       <style>{\`
 
-      button {
-          background: blue;
-          color: white;
-          font-size: 12px;
-          outline: 1px solid black;
-      }
-  \`}</style>
+        button {
+            background: blue;
+            color: white;
+            font-size: 12px;
+            outline: 1px solid black;
+        }
+    \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > use-style-and-css 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5573,25 +6137,27 @@ export default function MyComponent(props: any) {
         Button
       </button>
       <style>{\`.button-4fd6647d {
-background: blue;
-color: white;
+  background: blue;
+  color: white;
 }
 
-      button {
-          font-size: 12px;
-          outline: 1px solid black;
-      }
-  \`}</style>
+        button {
+            font-size: 12px;
+            outline: 1px solid black;
+        }
+    \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > jsx > Typescript Test > use-style-outside-component 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5599,23 +6165,25 @@ export default function MyComponent(props: any) {
       <button type=\\"button\\">Button</button>
       <style>{\`
 
-button {
-    background: blue;
-    color: white;
-    font-size: 12px;
-    outline: 1px solid black;
-}
+  button {
+      background: blue;
+      color: white;
+      font-size: 12px;
+      outline: 1px solid black;
+  }
 \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > basic 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Steve\\" };
@@ -5627,13 +6195,15 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > bindGroup 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { tortilla: \\"Plain\\", fillings: [] };
@@ -5680,26 +6250,30 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > bindProperty 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { value: \\"hello\\" };
 
   return <input value={state.value} />;
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > classDirective 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { focus: true };
@@ -5714,24 +6288,26 @@ export default function MyComponent(props) {
 }
 
 MyComponent.defaultProps = {};
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > context 1`] = `
-"']' expected. (20:35)
-  18 |     
-  19 |     
-> 20 |       const disabled = _context[''disabled''];
-     |                                   ^
-  21 |     
-  22 |     
-  23 |     "
+"']' expected. (18:31)
+  16 |
+  17 |
+> 18 |   const disabled = _context[''disabled''];
+     |                               ^
+  19 |
+  20 |
+  21 |"
 `;
 
 exports[`RSC > svelte > Javascript Test > each 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { numbers: [\\"one\\", \\"two\\", \\"three\\"] };
@@ -5744,13 +6320,15 @@ export default function MyComponent(props) {
     </ul>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > eventHandlers 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -5767,26 +6345,30 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > html 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { html: \\"<b>bold</b>\\" };
 
   return <div dangerouslySetInnerHTML={{ __html: state.html }} />;
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > ifElse 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -5798,6 +6380,8 @@ export default function MyComponent(props) {
 
   return <>{state.show ? <button> Hide </button> : <button> Show </button>}</>;
 }
+
+export default MyComponent;
 "
 `;
 
@@ -5805,7 +6389,7 @@ exports[`RSC > svelte > Javascript Test > imports 1`] = `
 "import * as React from \\"react\\";
 import Button from \\"./Button.lite\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { disabled: false };
@@ -5821,24 +6405,28 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > lifecycleHooks 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > reactive 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -5856,13 +6444,15 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > reactiveWithFn 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -5883,26 +6473,30 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > slots 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
-  return <div slotContext={_context}>{props.slotTest}</div>;
+  return (
+    <div slotContext={_context}>{props.slotTest || <div>default</div>}</div>
+  );
 }
 
-MyComponent.defaultProps = { slotTest: <div>default</div> };
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > style 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -5910,25 +6504,27 @@ export default function MyComponent(props) {
       <input className=\\"form-input\\" />
       <style>{\`
 
-input {
-  color: red;
-  font-size: 12px;
-}
+  input {
+    color: red;
+    font-size: 12px;
+  }
 
-.form-input:focus {
-  outline: 1px solid blue;
-}
+  .form-input:focus {
+    outline: 1px solid blue;
+  }
 \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Javascript Test > textExpressions 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props) {
+function MyComponent(props) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { a: 5, b: 12 };
@@ -5943,13 +6539,15 @@ export default function MyComponent(props) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > basic 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { name: \\"Steve\\" };
@@ -5961,13 +6559,15 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > bindGroup 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { tortilla: \\"Plain\\", fillings: [] };
@@ -6014,26 +6614,30 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > bindProperty 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { value: \\"hello\\" };
 
   return <input value={state.value} />;
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > classDirective 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { focus: true };
@@ -6048,24 +6652,26 @@ export default function MyComponent(props: any) {
 }
 
 MyComponent.defaultProps = {};
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > context 1`] = `
-"']' expected. (20:35)
-  18 |     
-  19 |     
-> 20 |       const disabled = _context[''disabled''];
-     |                                   ^
-  21 |     
-  22 |     
-  23 |     "
+"']' expected. (18:31)
+  16 |
+  17 |
+> 18 |   const disabled = _context[''disabled''];
+     |                               ^
+  19 |
+  20 |
+  21 |"
 `;
 
 exports[`RSC > svelte > Typescript Test > each 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { numbers: [\\"one\\", \\"two\\", \\"three\\"] };
@@ -6078,13 +6684,15 @@ export default function MyComponent(props: any) {
     </ul>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > eventHandlers 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -6101,26 +6709,30 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > html 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { html: \\"<b>bold</b>\\" };
 
   return <div dangerouslySetInnerHTML={{ __html: state.html }} />;
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > ifElse 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -6132,6 +6744,8 @@ export default function MyComponent(props: any) {
 
   return <>{state.show ? <button> Hide </button> : <button> Show </button>}</>;
 }
+
+export default MyComponent;
 "
 `;
 
@@ -6139,7 +6753,7 @@ exports[`RSC > svelte > Typescript Test > imports 1`] = `
 "import * as React from \\"react\\";
 import Button from \\"./Button.lite\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { disabled: false };
@@ -6155,24 +6769,28 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > lifecycleHooks 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return <div />;
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > reactive 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -6190,13 +6808,15 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > reactiveWithFn 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = {
@@ -6217,26 +6837,30 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > slots 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
-  return <div slotContext={_context}>{props.slotTest}</div>;
+  return (
+    <div slotContext={_context}>{props.slotTest || <div>default</div>}</div>
+  );
 }
 
-MyComponent.defaultProps = { slotTest: <div>default</div> };
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > style 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   return (
@@ -6244,25 +6868,27 @@ export default function MyComponent(props: any) {
       <input className=\\"form-input\\" />
       <style>{\`
 
-input {
-  color: red;
-  font-size: 12px;
-}
+  input {
+    color: red;
+    font-size: 12px;
+  }
 
-.form-input:focus {
-  outline: 1px solid blue;
-}
+  .form-input:focus {
+    outline: 1px solid blue;
+  }
 \`}</style>
     </>
   );
 }
+
+export default MyComponent;
 "
 `;
 
 exports[`RSC > svelte > Typescript Test > textExpressions 1`] = `
 "import * as React from \\"react\\";
 
-export default function MyComponent(props: any) {
+function MyComponent(props: any) {
   const _context = { ...props[\\"_context\\"] };
 
   const state = { a: 5, b: 12 };
@@ -6277,5 +6903,7 @@ export default function MyComponent(props: any) {
     </div>
   );
 }
+
+export default MyComponent;
 "
 `;

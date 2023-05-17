@@ -4,27 +4,28 @@ import {
   componentToCustomElement,
   componentToHtml,
   componentToLiquid,
+  componentToLit,
   componentToMarko,
   componentToMitosis,
   componentToPreact,
-  componentToLit,
   componentToQwik,
   componentToReact,
-  componentToRsc,
   componentToReactNative,
+  componentToRsc,
   componentToSolid,
   componentToStencil,
   componentToSvelte,
   componentToSwift,
+  componentToTaro,
   componentToTemplate,
   componentToVue2,
   componentToVue3,
   MitosisComponent,
   MitosisConfig,
   parseJsx,
+  parseSvelte,
   Target,
   TranspilerGenerator,
-  parseSvelte,
 } from '@builder.io/mitosis';
 import debug from 'debug';
 import { flow, pipe } from 'fp-ts/lib/function';
@@ -294,6 +295,8 @@ const getGeneratorForTarget = ({ target }: { target: Target }): TargetContext['g
       return componentToTemplate;
     case 'liquid':
       return componentToLiquid;
+    case 'taro':
+      return componentToTaro;
     default:
       throw new Error('CLI does not yet support target: ' + target);
   }

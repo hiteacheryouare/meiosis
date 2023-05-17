@@ -1,21 +1,21 @@
-import { pipe, identity } from 'fp-ts/lib/function';
-import { Dictionary } from '../../helpers/typescript';
+import { identity, pipe } from 'fp-ts/lib/function';
 import { filterEmptyTextNodes } from '../../helpers/filter-empty-text-nodes';
 import isChildren from '../../helpers/is-children';
 import { isMitosisNode } from '../../helpers/is-mitosis-node';
+import { checkIsDefined } from '../../helpers/nullable';
 import { removeSurroundingBlock } from '../../helpers/remove-surrounding-block';
 import { replaceIdentifiers } from '../../helpers/replace-identifiers';
-import { replaceSlotsInString, stripSlotPrefix, isSlotProperty } from '../../helpers/slots';
+import { isSlotProperty, stripSlotPrefix } from '../../helpers/slots';
+import { Dictionary } from '../../helpers/typescript';
 import { selfClosingTags } from '../../parsers/jsx';
-import { MitosisNode, ForNode, Binding, SpreadType } from '../../types/mitosis-node';
+import { Binding, ForNode, MitosisNode, SpreadType } from '../../types/mitosis-node';
 import {
-  encodeQuotes,
   addBindingsToJson,
   addPropertiesToJson,
+  encodeQuotes,
   invertBooleanExpression,
 } from './helpers';
 import { ToVueOptions } from './types';
-import { checkIsDefined } from '../../helpers/nullable';
 
 const SPECIAL_PROPERTIES = {
   V_IF: 'v-if',
@@ -26,6 +26,13 @@ const SPECIAL_PROPERTIES = {
   V_ON_AT: '@',
   V_BIND: 'v-bind',
 } as const;
+
+/**
+ * blockToVue executed after processBinding,
+ * when processBinding is executed,
+ * SLOT_PREFIX from `slot` change to `$slots.`
+ */
+const SLOT_PREFIX = '$slots.';
 
 type BlockRenderer = (json: MitosisNode, options: ToVueOptions, scope?: Scope) => string;
 
@@ -43,10 +50,20 @@ const NODE_MAPPERS: {
 } = {
   Fragment(json, options, scope) {
     const children = json.children.filter(filterEmptyTextNodes);
-    if (options.vueVersion === 2 && scope?.isRootNode && children.length > 1) {
-      throw new Error('Vue 2 template should have a single root element');
+    const shouldAddDivFallback =
+      options.vueVersion === 2 && scope?.isRootNode && children.length > 1;
+
+    const childrenStr = children.map((item) => blockToVue(item, options)).join('\n');
+
+    if (shouldAddDivFallback) {
+      console.warn(
+        'WARNING: Vue 2 forbids multiple root elements. You provided a root Fragment with multiple elements. Wrapping elements in div as a workaround.',
+      );
+
+      return `<div>${childrenStr}</div>`;
+    } else {
+      return childrenStr;
     }
-    return children.map((item) => blockToVue(item, options)).join('\n');
   },
   For(_json, options) {
     const json = _json as ForNode;
@@ -80,10 +97,7 @@ const NODE_MAPPERS: {
       : '';
   },
   Show(json, options, scope) {
-    const ifValue = replaceSlotsInString(
-      json.bindings.when?.code || '',
-      (slotName) => `$slots.${slotName}`,
-    );
+    const ifValue = json.bindings.when?.code || '';
 
     const defaultShowTemplate = `
     <template ${SPECIAL_PROPERTIES.V_IF}="${encodeQuotes(ifValue)}">
@@ -281,7 +295,10 @@ const NODE_MAPPERS: {
       `;
     }
 
-    return `<slot name="${stripSlotPrefix(slotName).toLowerCase()}">${renderChildren()}</slot>`;
+    return `<slot name="${stripSlotPrefix(
+      slotName,
+      SLOT_PREFIX,
+    ).toLowerCase()}">${renderChildren()}</slot>`;
   },
 };
 
@@ -396,8 +413,8 @@ export const blockToVue: BlockRenderer = (node, options, scope) => {
 
   const textCode = node.bindings._text?.code;
   if (textCode) {
-    if (isSlotProperty(textCode)) {
-      return `<slot name="${stripSlotPrefix(textCode).toLowerCase()}"/>`;
+    if (isSlotProperty(textCode, SLOT_PREFIX)) {
+      return `<slot name="${stripSlotPrefix(textCode, SLOT_PREFIX).toLowerCase()}"/>`;
     }
     return `{{${textCode}}}`;
   }

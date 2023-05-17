@@ -16,9 +16,10 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useLocalObservable, useObserver } from 'mobx-react-lite';
-import React, { useRef, useState } from 'react';
 import Image from 'next/image';
+import { useRef, useState } from 'react';
 
+import stringify from 'fast-json-stable-stringify';
 import { adapt } from 'webcomponents-in-react';
 import { breakpoints } from '../../constants/breakpoints';
 import { colors } from '../../constants/colors';
@@ -37,7 +38,6 @@ import { useEventListener } from '../../hooks/use-event-listener';
 import { useReaction } from '../../hooks/use-reaction';
 import { Show } from '../Show';
 import { TextLink } from '../TextLink';
-import stringify from 'fast-json-stable-stringify';
 
 import MonacoEditor, { EditorProps, useMonaco } from '@monaco-editor/react/';
 import { JsxCodeEditor } from '../JsxCodeEditor';
@@ -296,20 +296,21 @@ export default function Fiddle() {
 
         const { parseSvelte, parseJsx } = await mitosisCore();
 
+        const commonOptions: { typescript: boolean } = {
+          typescript: state.options.typescript === 'true',
+        };
+
         switch (state.inputTab) {
           case 'svelte':
             json = await parseSvelte(state.code);
             break;
           case 'jsx':
           default:
-            json = parseJsx(state.code);
+            json = parseJsx(state.code, {
+              typescript: commonOptions.typescript,
+            });
             break;
         }
-
-        const commonOptions: { typescript: boolean } = {
-          typescript: state.options.typescript === 'true',
-        };
-
         const generateOptions = () => {
           switch (state.outputTab) {
             case 'alpine':
@@ -509,13 +510,13 @@ export default function Fiddle() {
   );
 
   return useObserver(() => {
-    const monacoTheme = theme.darkMode ? 'vs-dark' : 'vs';
+    const isDarkMode = theme.darkMode;
+    const monacoTheme = isDarkMode ? 'vs-dark' : 'vs';
     const barStyle: any = {
       overflow: 'auto',
       whiteSpace: 'nowrap',
-      ...(theme.darkMode ? null : { backgroundColor: 'white' }),
+      ...(isDarkMode ? null : { backgroundColor: 'white' }),
     };
-
     return (
       <div
         css={{
@@ -526,11 +527,6 @@ export default function Fiddle() {
             {
               backgroundColor: 'transparent !important',
             },
-
-          'a > span': {
-            color: 'white',
-            textDecoration: 'none',
-          },
         }}
       >
         <div
@@ -573,6 +569,10 @@ export default function Fiddle() {
             <div
               css={{
                 display: 'flex',
+                'a > span': {
+                  color: 'white',
+                  textDecoration: 'none',
+                },
               }}
             >
               <Button
