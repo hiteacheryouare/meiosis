@@ -686,7 +686,7 @@ Object.assign(state, {
   },
   useLazyLoading() {
     // TODO: Add more checks here, like testing for real web browsers
-    return !!props.lazy && isBrowser();
+    return !!props.lazy && state.isBrowser();
   },
   isBrowser: function isBrowser() {
     return (
@@ -704,7 +704,7 @@ if (state.useLazyLoading()) {
       const buffer = window.innerHeight / 2;
 
       if (rect.top < window.innerHeight + buffer) {
-        setLoad(true);
+        state.load = true;
         state.scrollListener = null;
         window.removeEventListener(\\"scroll\\", listener);
       }
@@ -729,7 +729,7 @@ useState({
   },
   useLazyLoading() {
     // TODO: Add more checks here, like testing for real web browsers
-    return !!props.lazy && isBrowser();
+    return !!props.lazy && state.isBrowser();
   },
   isBrowser: function isBrowser() {
     return (
@@ -748,7 +748,7 @@ onMount(() => {
         const buffer = window.innerHeight / 2;
 
         if (rect.top < window.innerHeight + buffer) {
-          setLoad(true);
+          state.load = true;
           state.scrollListener = null;
           window.removeEventListener(\\"scroll\\", listener);
         }
@@ -780,7 +780,7 @@ export default function MyComponent(props) {
     },
     useLazyLoading() {
       // TODO: Add more checks here, like testing for real web browsers
-      return !!props.lazy && isBrowser();
+      return !!props.lazy && state.isBrowser();
     },
     isBrowser: function isBrowser() {
       return (
@@ -802,7 +802,7 @@ export default function MyComponent(props) {
           const buffer = window.innerHeight / 2;
 
           if (rect.top < window.innerHeight + buffer) {
-            setLoad(true);
+            state.load = true;
             state.scrollListener = null;
             window.removeEventListener(\\"scroll\\", listener);
           }
@@ -847,8 +847,25 @@ export default function MyComponent(props) {
 "
 `;
 
+exports[`Builder > No srcset for SVG 1`] = `
+"<img
+  loading=\\"lazy\\"
+  src=\\"https://cdn.builder.io/api/v1/image/dummy.svg\\"
+  class=\\"img\\"
+/>
+<style>
+  .img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+  }
+</style>
+"
+`;
+
 exports[`Builder > Regenerate Image 1`] = `
-"import * as React from \\"react\\";
+"\\"use client\\";
+import * as React from \\"react\\";
 import { useState } from \\"react\\";
 import { Image } from \\"@components\\";
 
@@ -858,26 +875,18 @@ function MyComponent(props) {
   return (
     <>
       <div>
-        <div>
-          <picture>
-            <source
-              srcset=\\"https://cdn.builder.io/api/v1/image/foobar?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/foobar?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/foobar?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/foobar?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/foobar?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/foobar?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/foobar?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/foobar\\"
-              type=\\"image/webp\\"
-            />
-            <img
-              loading=\\"lazy\\"
-              src=\\"https://cdn.builder.io/api/v1/image/foobar\\"
-              sizes=\\"100vw\\"
-              srcset=\\"https://cdn.builder.io/api/v1/image/foobar?width=100 100w, https://cdn.builder.io/api/v1/image/foobar?width=200 200w, https://cdn.builder.io/api/v1/image/foobar?width=400 400w, https://cdn.builder.io/api/v1/image/foobar?width=800 800w, https://cdn.builder.io/api/v1/image/foobar?width=1200 1200w, https://cdn.builder.io/api/v1/image/foobar?width=1600 1600w, https://cdn.builder.io/api/v1/image/foobar?width=2000 2000w, https://cdn.builder.io/api/v1/image/foobar\\"
-              className=\\"image\\"
-            />
-          </picture>
-        </div>
+        <img
+          loading=\\"lazy\\"
+          sizes=\\"100vw\\"
+          srcSet=\\"https://cdn.builder.io/api/v1/image/foobar?width=100 100w, https://cdn.builder.io/api/v1/image/foobar?width=200 200w, https://cdn.builder.io/api/v1/image/foobar?width=400 400w, https://cdn.builder.io/api/v1/image/foobar?width=800 800w, https://cdn.builder.io/api/v1/image/foobar?width=1200 1200w, https://cdn.builder.io/api/v1/image/foobar?width=1600 1600w, https://cdn.builder.io/api/v1/image/foobar?width=2000 2000w, https://cdn.builder.io/api/v1/image/foobar\\"
+          className=\\"img\\"
+        />
       </div>
       <style jsx>{\`
-        .image {
+        .img {
           object-fit: contain;
-          object-position: cover;
+          object-position: center;
+          width: 100%;
         }
       \`}</style>
     </>
@@ -929,7 +938,10 @@ exports[`Builder > Regenerate custom Hero 1`] = `
     "set": {},
   },
   "exports": {},
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [
     {
       "importKind": "value",
@@ -1026,7 +1038,10 @@ exports[`Builder > Regenerate custom Hero 3`] = `
     "set": {},
   },
   "exports": {},
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": undefined,
   "meta": {
@@ -1049,7 +1064,6 @@ export default function MyComponent(props) {
     <For each={state.submenusItem.menuItems}>
       {(item, index) => (
         <div
-          block-id=\\"builder-ID\\"
           class=\\"class-id\\"
           css={{
             padding: \\"2px\\",
@@ -1064,21 +1078,9 @@ export default function MyComponent(props) {
 `;
 
 exports[`Builder > Section 1`] = `
-"<div block-id=\\"builder-82a5c11482a644a8aa74dca341e3d6f1\\" class=\\"div\\">
-  <p>EAGER LOAD</p>
-</div>
-<div
-  block-id=\\"builder-6f37b822156149cc9033e4cbee511d2f\\"
-  class=\\"div-2\\"
-  data-el=\\"div-1\\"
->
-  <section
-    block-id=\\"builder-6f37b822156149cc9033e4cbee511d2f\\"
-    lazyLoad=\\"true\\"
-    class=\\"section\\"
-  >
-    <p>LAZY LOAD</p>
-  </section>
+"<div class=\\"div\\"><p>EAGER LOAD</p></div>
+<div class=\\"div-2\\" data-el=\\"div-1\\">
+  <section lazyLoad=\\"true\\" class=\\"section\\"><p>LAZY LOAD</p></section>
 </div>
 <style>
   .div {
@@ -1096,29 +1098,35 @@ exports[`Builder > Section 1`] = `
     display: flex;
     flex-direction: column;
     position: relative;
-    flex-shrink: 0;
     box-sizing: border-box;
-    margin-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
     line-height: normal;
     height: auto;
     text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 70px;
+    padding-bottom: 50px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
   .section {
-    width: 100%;
-    align-self: stretch;
-    flex-grow: 1;
-    box-sizing: border-box;
-    max-width: 1234px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    position: relative;
+    box-sizing: border-box;
+    line-height: normal;
+    height: auto;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 70px;
+    padding-bottom: 50px;
+    width: 100%;
     margin-left: auto;
+    align-self: stretch;
+    flex-grow: 1;
+    max-width: 1234px;
+    align-items: stretch;
     margin-right: auto;
   }
 </style>
@@ -1636,6 +1644,7 @@ exports[`Builder > extractStateHook 1`] = `
   "state": {
     "foo": {
       "code": "'bar'",
+      "propertyType": "normal",
       "type": "property",
     },
   },

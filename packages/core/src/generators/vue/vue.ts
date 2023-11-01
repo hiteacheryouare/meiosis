@@ -9,7 +9,8 @@ import { fastClone } from '../../helpers/fast-clone';
 import { getProps } from '../../helpers/get-props';
 import { isMitosisNode } from '../../helpers/is-mitosis-node';
 import { mapRefs } from '../../helpers/map-refs';
-import { mergeOptions } from '../../helpers/merge-options';
+import { initializeOptions } from '../../helpers/merge-options';
+import { processOnEventHooksPlugin } from '../../helpers/on-event';
 import { CODE_PROCESSOR_PLUGIN } from '../../helpers/plugins/process-code';
 import { processHttpRequests } from '../../helpers/process-http-requests';
 import { renderPreComponent } from '../../helpers/render-imports';
@@ -96,7 +97,6 @@ const onUpdatePlugin: Plugin = (options) => ({
 });
 
 const BASE_OPTIONS: ToVueOptions = {
-  plugins: [],
   vueVersion: 2,
   api: 'options',
   defineComponent: true,
@@ -104,9 +104,25 @@ const BASE_OPTIONS: ToVueOptions = {
 
 const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
   (userOptions) =>
-  ({ component, path }) => {
-    const options = mergeOptions(BASE_OPTIONS, userOptions);
+  ({ component: _component, path }) => {
+    // Make a copy we can safely mutate, similar to babel's toolchain can be used
+    let component = fastClone(_component);
+
+    const options = initializeOptions({
+      target: userOptions?.vueVersion === 2 ? 'vue2' : 'vue3',
+      component,
+      defaults: BASE_OPTIONS,
+      userOptions: userOptions,
+    });
+
+    if (options.api === 'composition') {
+      options.asyncComponentImports = false;
+    }
+
     options.plugins.unshift(
+      processOnEventHooksPlugin(),
+      ...(options.api === 'options' ? [onUpdatePlugin] : []),
+      ...(options.api === 'composition' ? [FUNCTION_HACK_PLUGIN] : []),
       CODE_PROCESSOR_PLUGIN((codeType) => {
         if (options.api === 'composition') {
           switch (codeType) {
@@ -120,10 +136,14 @@ const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
                 convertTypeScriptToJS,
                 (code) => processBinding({ code, options, json: component, codeType }),
               );
+            case 'context-set':
+              return (code) =>
+                processBinding({ code, options, json: component, preserveGetter: true });
             case 'hooks-deps':
               return replaceStateIdentifier(null);
             case 'properties':
             case 'dynamic-jsx-elements':
+            case 'types':
               return (c) => c;
           }
         } else {
@@ -139,27 +159,29 @@ const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
             case 'properties':
             case 'dynamic-jsx-elements':
             case 'hooks-deps':
+            case 'types':
               return (c) => c;
             case 'state':
               return (c) => processBinding({ code: c, options, json: component });
+            case 'context-set':
+              return (code) =>
+                processBinding({
+                  code,
+                  options,
+                  json: component,
+                  thisPrefix: '_this',
+                  preserveGetter: true,
+                });
           }
         }
       }),
     );
 
-    if (options.api === 'options') {
-      options.plugins.unshift(onUpdatePlugin);
-    } else if (options.api === 'composition') {
-      options.plugins.unshift(FUNCTION_HACK_PLUGIN);
-      options.asyncComponentImports = false;
-    }
-    // Make a copy we can safely mutate, similar to babel's toolchain can be used
-    component = fastClone(component);
     processHttpRequests(component);
     processDynamicComponents(component, options);
     processForKeys(component, options);
 
-    component = runPreJsonPlugins(component, options.plugins);
+    component = runPreJsonPlugins({ json: component, plugins: options.plugins });
 
     if (options.api === 'options') {
       mapRefs(component, (refName) => `this.$refs.${refName}`);
@@ -170,7 +192,7 @@ const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
     const elementProps = props.filter((prop) => !isSlotProperty(prop));
     const slotsProps = props.filter((prop) => isSlotProperty(prop));
 
-    component = runPostJsonPlugins(component, options.plugins);
+    component = runPostJsonPlugins({ json: component, plugins: options.plugins });
 
     const css = collectCss(component, {
       prefix: options.cssNamespace?.() ?? undefined,
@@ -199,7 +221,7 @@ const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
     }
     if (options.api === 'composition') {
       onUpdateWithDeps.length && vueImports.push('watch');
-      component.hooks.onMount?.code && vueImports.push('onMounted');
+      component.hooks.onMount.length && vueImports.push('onMounted');
       component.hooks.onUnMount?.code && vueImports.push('onUnmounted');
       onUpdateWithoutDeps.length && vueImports.push('onUpdated');
       size(getterKeys) && vueImports.push('computed');
@@ -265,7 +287,12 @@ const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
     }
   `;
 
-    str = runPreCodePlugins(str, options.plugins, { json: component });
+    str = runPreCodePlugins({
+      json: component,
+      code: str,
+      plugins: options.plugins,
+      options: { json: component },
+    });
     if (true || options.prettier !== false) {
       try {
         str = format(str, {
@@ -282,13 +309,12 @@ const componentToVue: TranspilerGenerator<Partial<ToVueOptions>> =
         console.warn('Could not prettify', { string: str }, err);
       }
     }
-    str = runPostCodePlugins(str, options.plugins);
+    str = runPostCodePlugins({ json: component, code: str, plugins: options.plugins });
 
     for (const pattern of removePatterns) {
       str = str.replace(pattern, '').trim();
     }
     str = str.replace(/<script(.*)>\n?<\/script>/g, '').trim();
-
     return str;
   };
 

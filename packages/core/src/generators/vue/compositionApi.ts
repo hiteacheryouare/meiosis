@@ -3,7 +3,7 @@ import { pickBy } from 'lodash';
 import { dedent } from '../../helpers/dedent';
 import { getStateObjectStringFromComponent } from '../../helpers/get-state-object-string';
 import { stripStateAndPropsRefs } from '../../helpers/strip-state-and-props-refs';
-import { extendedHook, MitosisComponent } from '../../types/mitosis-component';
+import { BaseHook, MitosisComponent } from '../../types/mitosis-component';
 import { getContextKey, getContextValue, processBinding } from './helpers';
 import { ToVueOptions } from './types';
 
@@ -43,8 +43,8 @@ export function generateCompositionApiScript(
   options: ToVueOptions,
   template: string,
   props: Array<string>,
-  onUpdateWithDeps: extendedHook[],
-  onUpdateWithoutDeps: extendedHook[],
+  onUpdateWithDeps: BaseHook[],
+  onUpdateWithoutDeps: BaseHook[],
 ) {
   const isTs = options.typescript;
   let refs = getStateObjectStringFromComponent(component, {
@@ -90,7 +90,7 @@ export function generateCompositionApiScript(
 
     ${Object.values(component.context.set)
       ?.map((contextSet) => {
-        const contextValue = getContextValue({ json: component, options })(contextSet);
+        const contextValue = getContextValue(contextSet);
         const key = getContextKey(contextSet);
 
         return `provide(${key}, ${contextValue})`;
@@ -107,7 +107,7 @@ export function generateCompositionApiScript(
       })
       .join('\n')}
     ${component.hooks.onInit?.code ?? ''}
-    ${!component.hooks.onMount?.code ? '' : `onMounted(() => { ${component.hooks.onMount.code}})`}
+    ${component.hooks.onMount.map((hook) => `onMounted(() => { ${hook.code} })`)}
     ${
       !component.hooks.onUnMount?.code
         ? ''
@@ -132,7 +132,7 @@ export function generateCompositionApiScript(
         .join('\n') || ''
     }
 
-    ${onUpdateWithoutDeps?.map((hook) => `onUpdated(() => ${hook.code})`).join('\n') || ''}
+    ${onUpdateWithoutDeps?.map((hook) => `onUpdated(() => {${hook.code}})`).join('\n') || ''}
 
     ${
       onUpdateWithDeps

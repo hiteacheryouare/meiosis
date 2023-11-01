@@ -133,13 +133,13 @@ function MyBasicComponent(props) {
   }, []);
 
   return (
-    <Context.Provider value={createInjector()}>
+    <Injector.Provider value={createInjector()}>
       <div>
         {myService.method(\\"hello\\") + name}
         Hello! I can run in React, Vue, Solid, or Liquid!
         <input onChange={(event) => onChange} />
       </div>
-    </Context.Provider>
+    </Injector.Provider>
   );
 }
 
@@ -237,9 +237,12 @@ import MyBooleanAttributeComponent from \\"./basic-boolean-attribute-component.r
 function MyBooleanAttribute(props) {
   return (
     <div>
-      {props.children}
-
-      {props.type}
+      {props.children ? (
+        <Fragment>
+          {props.children}
+          {props.type}
+        </Fragment>
+      ) : null}
 
       <MyBooleanAttributeComponent toggle={true} />
 
@@ -1217,11 +1220,35 @@ function FormInputComponent(props) {
       value={props.value}
       defaultValue={props.defaultValue}
       required={props.required}
+      onChange={(event) => props.onChange?.(event.target.value)}
     />
   );
 }
 
 export default FormInputComponent;
+"
+`;
+
+exports[`Preact > jsx > Javascript Test > InputParent 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+import FormInputComponent from \\"./input.raw\\";
+
+function Stepper(props) {
+  function handleChange(value) {
+    console.log(value);
+  }
+
+  return (
+    <FormInputComponent
+      name=\\"kingzez\\"
+      type=\\"text\\"
+      onChange={(value) => handleChange(value)}
+    />
+  );
+}
+
+export default Stepper;
 "
 `;
 
@@ -1938,7 +1965,7 @@ exports[`Preact > jsx > Javascript Test > contentState 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
 import { useContext } from \\"preact/hooks\\";
-import BuilderContext from \\"@dummy/context.lite\\";
+import BuilderContext from \\"@dummy/context.js\\";
 
 function RenderContent(props) {
   return (
@@ -2256,6 +2283,43 @@ export default NestedStyles;
 "
 `;
 
+exports[`Preact > jsx > Javascript Test > onEvent 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+import { useRef, useEffect } from \\"preact/hooks\\";
+
+function Embed(props) {
+  const elem = useRef(null);
+  function foo(event) {
+    console.log(\\"test2\\");
+  }
+
+  function elem_onInitEditingBldr(event) {
+    console.log(\\"test\\");
+    foo(event);
+  }
+
+  useEffect(() => {
+    elem.addEventListener(\\"initEditingBldr\\", elem_onInitEditingBldr);
+    return () =>
+      elem.removeEventListener(\\"initEditingBldr\\", elem_onInitEditingBldr);
+  }, []);
+
+  useEffect(() => {
+    elem.current.dispatchEvent(new CustomEvent(\\"initEditingBldr\\"));
+  }, []);
+
+  return (
+    <div className=\\"builder-embed\\" ref={elem}>
+      <div>Test</div>
+    </div>
+  );
+}
+
+export default Embed;
+"
+`;
+
 exports[`Preact > jsx > Javascript Test > onInit & onMount 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
@@ -2499,11 +2563,11 @@ import { getBlockProperties } from \\"../../functions/get-block-properties.js\\"
 import { getBlockTag } from \\"../../functions/get-block-tag.js\\";
 import { getProcessedBlock } from \\"../../functions/get-processed-block.js\\";
 import { getReactNativeBlockStyles } from \\"../../functions/get-react-native-block-styles.js\\";
-import BlockStyles from \\"./block-styles.lite\\";
+import BlockStyles from \\"./block-styles\\";
 import { isEmptyHtmlElement } from \\"./render-block.helpers.js\\";
-import RenderComponentWithContext from \\"./render-component-with-context.lite\\";
-import RenderComponent from \\"./render-component.lite\\";
-import RenderRepeatedBlock from \\"./render-repeated-block.lite\\";
+import RenderComponentWithContext from \\"./render-component-with-context.js\\";
+import RenderComponent from \\"./render-component\\";
+import RenderRepeatedBlock from \\"./render-repeated-block\\";
 
 function RenderBlock(props) {
   function component() {
@@ -2757,13 +2821,13 @@ exports[`Preact > jsx > Javascript Test > renderContentExample 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
 import { useContext, useEffect } from \\"preact/hooks\\";
-import BuilderContext from \\"@dummy/context.lite\\";
+import BuilderContext from \\"@dummy/context.js\\";
 import {
   dispatchNewContentToVisualEditor,
   sendComponentsToVisualEditor,
   trackClick,
 } from \\"@dummy/injection-js\\";
-import RenderBlocks from \\"@dummy/RenderBlocks.lite.tsx\\";
+import RenderBlocks from \\"@dummy/RenderBlocks\\";
 
 function RenderContent(props) {
   useEffect(() => {
@@ -3017,10 +3081,36 @@ export default MyComponent;
 "
 `;
 
+exports[`Preact > jsx > Javascript Test > stylePropClassAndCss 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+
+function StylePropClassAndCss(props) {
+  return (
+    <Fragment>
+      <div
+        style={props.attributes.style}
+        className={props.attributes.class + \\" div\\"}
+      />
+      <style jsx>{\`
+        .div {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+      \`}</style>
+    </Fragment>
+  );
+}
+
+export default StylePropClassAndCss;
+"
+`;
+
 exports[`Preact > jsx > Javascript Test > subComponent 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
-import Foo from \\"./foo-sub-component.lite\\";
+import Foo from \\"./foo-sub-component\\";
 
 function SubComponent(props) {
   return <Foo />;
@@ -3107,14 +3197,14 @@ function MyComponent(props) {
         Button
       </button>
       <style jsx>{\`
-        .button {
-          background: blue;
-          color: white;
-        }
-
         button {
           font-size: 12px;
           outline: 1px solid black;
+        }
+
+        .button {
+          background: blue;
+          color: white;
         }
       \`}</style>
     </Fragment>
@@ -3146,6 +3236,28 @@ function MyComponent(props) {
 }
 
 export default MyComponent;
+"
+`;
+
+exports[`Preact > jsx > Javascript Test > useTarget 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+import { useState, useEffect } from \\"preact/hooks\\";
+
+function UseTargetComponent(props) {
+  function name() {
+    const prefix = \\"p\\";
+    return prefix + \\"foo\\";
+  }
+
+  const [lastName, setLastName] = useState(() => \\"bar\\");
+
+  useEffect(() => {}, []);
+
+  return <div>{name()}</div>;
+}
+
+export default UseTargetComponent;
 "
 `;
 
@@ -3310,13 +3422,13 @@ function MyBasicComponent(props: any) {
   }, []);
 
   return (
-    <Context.Provider value={createInjector()}>
+    <Injector.Provider value={createInjector()}>
       <div>
         {myService.method(\\"hello\\") + name}
         Hello! I can run in React, Vue, Solid, or Liquid!
         <input onChange={(event) => onChange} />
       </div>
-    </Context.Provider>
+    </Injector.Provider>
   );
 }
 
@@ -3424,9 +3536,12 @@ import MyBooleanAttributeComponent from \\"./basic-boolean-attribute-component.r
 function MyBooleanAttribute(props: Props) {
   return (
     <div>
-      {props.children}
-
-      {props.type}
+      {props.children ? (
+        <Fragment>
+          {props.children}
+          {props.type}
+        </Fragment>
+      ) : null}
 
       <MyBooleanAttributeComponent toggle={true} />
 
@@ -4519,6 +4634,7 @@ export interface FormInputProps {
   placeholder?: string;
   defaultValue?: string;
   required?: boolean;
+  onChange?: (value: string) => void;
 }
 
 import { Builder } from \\"@builder.io/sdk\\";
@@ -4538,11 +4654,35 @@ function FormInputComponent(props: FormInputProps) {
       value={props.value}
       defaultValue={props.defaultValue}
       required={props.required}
+      onChange={(event) => props.onChange?.(event.target.value)}
     />
   );
 }
 
 export default FormInputComponent;
+"
+`;
+
+exports[`Preact > jsx > Typescript Test > InputParent 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+import FormInputComponent from \\"./input.raw\\";
+
+function Stepper(props: any) {
+  function handleChange(value: string) {
+    console.log(value);
+  }
+
+  return (
+    <FormInputComponent
+      name=\\"kingzez\\"
+      type=\\"text\\"
+      onChange={(value) => handleChange(value)}
+    />
+  );
+}
+
+export default Stepper;
 "
 `;
 
@@ -5377,7 +5517,7 @@ exports[`Preact > jsx > Typescript Test > contentState 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
 import { useContext } from \\"preact/hooks\\";
-import BuilderContext from \\"@dummy/context.lite\\";
+import BuilderContext from \\"@dummy/context.js\\";
 
 function RenderContent(props: any) {
   return (
@@ -5729,6 +5869,43 @@ export default NestedStyles;
 "
 `;
 
+exports[`Preact > jsx > Typescript Test > onEvent 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+import { useRef, useEffect } from \\"preact/hooks\\";
+
+function Embed(props: any) {
+  const elem = useRef<HTMLDivElement>(null);
+  function foo(event) {
+    console.log(\\"test2\\");
+  }
+
+  function elem_onInitEditingBldr(event) {
+    console.log(\\"test\\");
+    foo(event);
+  }
+
+  useEffect(() => {
+    elem.addEventListener(\\"initEditingBldr\\", elem_onInitEditingBldr);
+    return () =>
+      elem.removeEventListener(\\"initEditingBldr\\", elem_onInitEditingBldr);
+  }, []);
+
+  useEffect(() => {
+    elem.current.dispatchEvent(new CustomEvent(\\"initEditingBldr\\"));
+  }, []);
+
+  return (
+    <div className=\\"builder-embed\\" ref={elem}>
+      <div>Test</div>
+    </div>
+  );
+}
+
+export default Embed;
+"
+`;
+
 exports[`Preact > jsx > Typescript Test > onInit & onMount 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
@@ -6029,12 +6206,12 @@ import { getProcessedBlock } from \\"../../functions/get-processed-block.js\\";
 import { getReactNativeBlockStyles } from \\"../../functions/get-react-native-block-styles.js\\";
 import type { BuilderBlock } from \\"../../types/builder-block.js\\";
 import type { Nullable } from \\"../../types/typescript.js\\";
-import BlockStyles from \\"./block-styles.lite\\";
+import BlockStyles from \\"./block-styles\\";
 import { isEmptyHtmlElement } from \\"./render-block.helpers.js\\";
-import RenderComponentWithContext from \\"./render-component-with-context.lite\\";
-import type { RenderComponentProps } from \\"./render-component.lite\\";
-import RenderComponent from \\"./render-component.lite\\";
-import RenderRepeatedBlock from \\"./render-repeated-block.lite\\";
+import RenderComponentWithContext from \\"./render-component-with-context.js\\";
+import type { RenderComponentProps } from \\"./render-component\\";
+import RenderComponent from \\"./render-component\\";
+import RenderRepeatedBlock from \\"./render-repeated-block\\";
 import type { RepeatData } from \\"./types.js\\";
 
 function RenderBlock(props: RenderBlockProps) {
@@ -6297,13 +6474,13 @@ type Props = {
     id: string;
   };
 };
-import BuilderContext from \\"@dummy/context.lite\\";
+import BuilderContext from \\"@dummy/context.js\\";
 import {
   dispatchNewContentToVisualEditor,
   sendComponentsToVisualEditor,
   trackClick,
 } from \\"@dummy/injection-js\\";
-import RenderBlocks from \\"@dummy/RenderBlocks.lite.tsx\\";
+import RenderBlocks from \\"@dummy/RenderBlocks\\";
 
 function RenderContent(props: Props) {
   useEffect(() => {
@@ -6577,10 +6754,36 @@ export default MyComponent;
 "
 `;
 
+exports[`Preact > jsx > Typescript Test > stylePropClassAndCss 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+
+function StylePropClassAndCss(props: any) {
+  return (
+    <Fragment>
+      <div
+        style={props.attributes.style}
+        className={props.attributes.class + \\" div\\"}
+      />
+      <style jsx>{\`
+        .div {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+      \`}</style>
+    </Fragment>
+  );
+}
+
+export default StylePropClassAndCss;
+"
+`;
+
 exports[`Preact > jsx > Typescript Test > subComponent 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
-import Foo from \\"./foo-sub-component.lite\\";
+import Foo from \\"./foo-sub-component\\";
 
 function SubComponent(props: any) {
   return <Foo />;
@@ -6629,7 +6832,7 @@ export type TypeDependencyProps = {
   foo2: Foo2;
 };
 import type { Foo } from \\"./foo-type\\";
-import type { Foo as Foo2 } from \\"./type-export.lite\\";
+import type { Foo as Foo2 } from \\"./type-export\\";
 
 function TypeDependency(props: TypeDependencyProps) {
   return <div>{props.foo}</div>;
@@ -6674,14 +6877,14 @@ function MyComponent(props: any) {
         Button
       </button>
       <style jsx>{\`
-        .button {
-          background: blue;
-          color: white;
-        }
-
         button {
           font-size: 12px;
           outline: 1px solid black;
+        }
+
+        .button {
+          background: blue;
+          color: white;
         }
       \`}</style>
     </Fragment>
@@ -6713,6 +6916,28 @@ function MyComponent(props: any) {
 }
 
 export default MyComponent;
+"
+`;
+
+exports[`Preact > jsx > Typescript Test > useTarget 1`] = `
+"/** @jsx h */
+import { h, Fragment } from \\"preact\\";
+import { useState, useEffect } from \\"preact/hooks\\";
+
+function UseTargetComponent(props: any) {
+  function name() {
+    const prefix = \\"p\\";
+    return prefix + \\"foo\\";
+  }
+
+  const [lastName, setLastName] = useState(() => \\"bar\\");
+
+  useEffect(() => {}, []);
+
+  return <div>{name()}</div>;
+}
+
+export default UseTargetComponent;
 "
 `;
 
@@ -6847,24 +7072,14 @@ export default MyComponent;
 `;
 
 exports[`Preact > svelte > Javascript Test > context 1`] = `
-"/** @jsx h */
-import { h, Fragment } from \\"preact\\";
-import { useState, useContext } from \\"preact/hooks\\";
-
-function MyComponent(props) {
-  const [activeTab, setActiveTab] = useState(() => 0);
-
-  const disabled = useContext(\\"disabled\\");
-
-  return (
-    <Context.Provider value={activeTab}>
-      <div>{activeTab}</div>
-    </Context.Provider>
-  );
-}
-
-export default MyComponent;
-"
+"'>' expected. (35:13)
+  33 | return (
+  34 |
+> 35 | <'activeTab'.Provider  value={activeTab}><div>{activeTab}</div></'activeTab'.Provider>
+     |             ^
+  36 |
+  37 |
+  38 |"
 `;
 
 exports[`Preact > svelte > Javascript Test > each 1`] = `
@@ -6956,7 +7171,7 @@ exports[`Preact > svelte > Javascript Test > imports 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
 import { useState } from \\"preact/hooks\\";
-import Button from \\"./Button.lite\\";
+import Button from \\"./Button\\";
 
 function MyComponent(props) {
   const [disabled, setDisabled] = useState(() => false);
@@ -7267,24 +7482,14 @@ export default MyComponent;
 `;
 
 exports[`Preact > svelte > Typescript Test > context 1`] = `
-"/** @jsx h */
-import { h, Fragment } from \\"preact\\";
-import { useState, useContext } from \\"preact/hooks\\";
-
-function MyComponent(props: any) {
-  const [activeTab, setActiveTab] = useState(() => 0);
-
-  const disabled = useContext(\\"disabled\\");
-
-  return (
-    <Context.Provider value={activeTab}>
-      <div>{activeTab}</div>
-    </Context.Provider>
-  );
-}
-
-export default MyComponent;
-"
+"'>' expected. (35:13)
+  33 | return (
+  34 |
+> 35 | <'activeTab'.Provider  value={activeTab}><div>{activeTab}</div></'activeTab'.Provider>
+     |             ^
+  36 |
+  37 |
+  38 |"
 `;
 
 exports[`Preact > svelte > Typescript Test > each 1`] = `
@@ -7376,7 +7581,7 @@ exports[`Preact > svelte > Typescript Test > imports 1`] = `
 "/** @jsx h */
 import { h, Fragment } from \\"preact\\";
 import { useState } from \\"preact/hooks\\";
-import Button from \\"./Button.lite\\";
+import Button from \\"./Button\\";
 
 function MyComponent(props: any) {
   const [disabled, setDisabled] = useState(() => false);

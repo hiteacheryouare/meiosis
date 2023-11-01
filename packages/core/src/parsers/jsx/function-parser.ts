@@ -5,42 +5,17 @@ import { createMitosisComponent } from '../../helpers/create-mitosis-component';
 import { getBindingsCode } from '../../helpers/get-bindings';
 import { traceReferenceToModulePath } from '../../helpers/trace-reference-to-module-path';
 import { JSONOrNode } from '../../types/json';
-import { MitosisComponent } from '../../types/mitosis-component';
+import { MitosisComponent, ReactivityType } from '../../types/mitosis-component';
 import { MitosisNode } from '../../types/mitosis-node';
 import { getPropsTypeRef } from './component-types';
 import { jsxElementToJson } from './element-parser';
 import { parseCode, parseCodeJson } from './helpers';
-import { METADATA_HOOK_NAME } from './hooks';
+import { generateUseStyleCode, parseDefaultPropsHook } from './hooks';
+import { processHookCode } from './hooks/helpers';
 import { parseStateObjectToMitosisState } from './state';
 import { Context } from './types';
 
 const { types } = babel;
-
-export function generateUseStyleCode(expression: babel.types.CallExpression) {
-  return generate(expression.arguments[0]).code.replace(/(^("|'|`)|("|'|`)$)/g, '');
-}
-
-export function parseDefaultPropsHook(
-  component: MitosisComponent,
-  expression: babel.types.CallExpression,
-) {
-  const firstArg = expression.arguments[0];
-  if (types.isObjectExpression(firstArg)) {
-    component.defaultProps = parseStateObjectToMitosisState(firstArg, false);
-  }
-}
-
-const processHookCode = (
-  firstArg: babel.types.ArrowFunctionExpression | babel.types.FunctionExpression,
-) =>
-  generate(firstArg.body)
-    .code.trim()
-    // Remove arbitrary block wrapping if any
-    // AKA
-    //  { console.log('hi') } -> console.log('hi')
-    .replace(/^{/, '')
-    .replace(/}$/, '')
-    .trim();
 
 /**
  * Parses function declarations within the Mitosis copmonent's body to JSON
@@ -49,7 +24,10 @@ export const componentFunctionToJson = (
   node: babel.types.FunctionDeclaration,
   context: Context,
 ): JSONOrNode => {
-  const hooks: MitosisComponent['hooks'] = {};
+  const hooks: MitosisComponent['hooks'] = {
+    onMount: [],
+    onEvent: [],
+  };
   const state: MitosisComponent['state'] = {};
   const accessedContext: MitosisComponent['context']['get'] = {};
   const setContext: MitosisComponent['context']['set'] = {};
@@ -57,12 +35,9 @@ export const componentFunctionToJson = (
   for (const item of node.body.body) {
     if (types.isExpressionStatement(item)) {
       const expression = item.expression;
-      if (types.isCallExpression(expression)) {
-        if (types.isIdentifier(expression.callee)) {
-          if (
-            expression.callee.name === 'setContext' ||
-            expression.callee.name === 'provideContext'
-          ) {
+      if (types.isCallExpression(expression) && types.isIdentifier(expression.callee)) {
+        switch (expression.callee.name) {
+          case HOOKS.SET_CONTEXT: {
             const keyNode = expression.arguments[0];
             const valueNode = expression.arguments[1];
             if (types.isIdentifier(keyNode)) {
@@ -91,13 +66,83 @@ export const componentFunctionToJson = (
                 };
               }
             }
-          } else if (expression.callee.name === 'onMount') {
+            break;
+          }
+          case HOOKS.MOUNT: {
             const firstArg = expression.arguments[0];
+            const hookOptions = expression.arguments[1];
             if (types.isFunctionExpression(firstArg) || types.isArrowFunctionExpression(firstArg)) {
               const code = processHookCode(firstArg);
-              hooks.onMount = { code };
+              let onSSR = false;
+
+              if (types.isObjectExpression(hookOptions)) {
+                const onSSRProp = hookOptions.properties.find(
+                  (property) =>
+                    types.isProperty(property) &&
+                    types.isIdentifier(property.key) &&
+                    property.key.name === 'onSSR',
+                );
+
+                if (types.isObjectProperty(onSSRProp) && types.isBooleanLiteral(onSSRProp.value)) {
+                  onSSR = onSSRProp.value.value;
+                }
+              }
+
+              hooks.onMount.push({
+                code,
+                onSSR,
+              });
             }
-          } else if (expression.callee.name === 'onUpdate') {
+            break;
+          }
+          case HOOKS.EVENT: {
+            const firstArg = expression.arguments[0];
+            const secondArg = expression.arguments[1];
+            const thirdArg = expression.arguments[2];
+            const fourthArg = expression.arguments[3];
+
+            if (!types.isStringLiteral(firstArg)) {
+              console.warn(
+                '`onEvent` hook skipped. Event name must be a string literal: ',
+                generate(expression).code,
+              );
+              break;
+            }
+            if (
+              !types.isFunctionExpression(secondArg) &&
+              !types.isArrowFunctionExpression(secondArg)
+            ) {
+              console.warn(
+                '`onEvent` hook skipped. Event handler must be a function: ',
+                generate(expression).code,
+              );
+              break;
+            }
+
+            if (!types.isIdentifier(thirdArg)) {
+              console.warn(
+                '`onEvent` hook skipped. Element ref must be a value: ',
+                generate(expression).code,
+              );
+              break;
+            }
+
+            const isRoot = types.isBooleanLiteral(fourthArg) ? fourthArg.value : false;
+
+            const eventArgName = types.isIdentifier(secondArg.params[0])
+              ? secondArg.params[0].name
+              : 'event';
+
+            hooks.onEvent.push({
+              eventName: firstArg.value,
+              code: processHookCode(secondArg),
+              refName: thirdArg.name,
+              isRoot,
+              eventArgName,
+            });
+            break;
+          }
+          case HOOKS.UPDATE: {
             const firstArg = expression.arguments[0];
             const secondArg = expression.arguments[1];
             if (types.isFunctionExpression(firstArg) || types.isArrowFunctionExpression(firstArg)) {
@@ -117,27 +162,38 @@ export const componentFunctionToJson = (
                 ];
               }
             }
-          } else if (expression.callee.name === 'onUnMount') {
+            break;
+          }
+          case HOOKS.UNMOUNT: {
             const firstArg = expression.arguments[0];
             if (types.isFunctionExpression(firstArg) || types.isArrowFunctionExpression(firstArg)) {
               const code = processHookCode(firstArg);
               hooks.onUnMount = { code };
             }
-          } else if (expression.callee.name === 'onInit') {
+            break;
+          }
+          case HOOKS.INIT: {
             const firstArg = expression.arguments[0];
             if (types.isFunctionExpression(firstArg) || types.isArrowFunctionExpression(firstArg)) {
               const code = processHookCode(firstArg);
               hooks.onInit = { code };
             }
-          } else if (expression.callee.name === HOOKS.DEFAULT_PROPS) {
+            break;
+          }
+          case HOOKS.DEFAULT_PROPS: {
             parseDefaultPropsHook(context.builder.component, expression);
-          } else if (expression.callee.name === HOOKS.STYLE) {
+            break;
+          }
+          case HOOKS.STYLE: {
             context.builder.component.style = generateUseStyleCode(expression);
-          } else if (expression.callee.name === METADATA_HOOK_NAME) {
-            context.builder.component.meta[METADATA_HOOK_NAME] = {
-              ...context.builder.component.meta[METADATA_HOOK_NAME],
+            break;
+          }
+          case HOOKS.METADATA: {
+            context.builder.component.meta[HOOKS.METADATA] = {
+              ...context.builder.component.meta[HOOKS.METADATA],
               ...parseCodeJson(expression.arguments[0]),
             };
+            break;
           }
         }
       }
@@ -171,11 +227,27 @@ export const componentFunctionToJson = (
                 type: 'function',
               };
             } else {
+              const stateOptions = init.arguments[1];
+
+              let propertyType: ReactivityType = 'normal';
+
+              if (types.isObjectExpression(stateOptions)) {
+                for (const prop of stateOptions.properties) {
+                  if (!types.isProperty(prop) || !types.isIdentifier(prop.key)) continue;
+                  const isReactive = prop.key.name === 'reactive';
+
+                  if (isReactive && types.isBooleanLiteral(prop.value) && prop.value.value) {
+                    propertyType = 'reactive';
+                  }
+                }
+              }
+
               // Value as init, like:
               // useState(true)
               state[varName] = {
                 code: parseCode(value),
                 type: 'property',
+                propertyType,
               };
             }
 
@@ -184,10 +256,7 @@ export const componentFunctionToJson = (
               state[varName]!.typeParameter = generate(init.typeParameters.params[0]).code;
             }
           }
-        }
-        // Solid store format, like:
-        // const state = useStore({...})
-        if (init.callee.name === HOOKS.STORE) {
+        } else if (init.callee.name === HOOKS.STORE) {
           const firstArg = init.arguments[0];
           if (types.isObjectExpression(firstArg)) {
             const useStoreState = parseStateObjectToMitosisState(firstArg);

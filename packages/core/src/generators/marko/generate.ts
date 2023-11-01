@@ -1,6 +1,7 @@
 import hash from 'hash-sum';
 import { camelCase } from 'lodash';
 import { format } from 'prettier/standalone';
+import { SELF_CLOSING_HTML_TAGS } from '../../constants/html_tags';
 import { dashCase } from '../../helpers/dash-case';
 import { dedent } from '../../helpers/dedent';
 import { fastClone } from '../../helpers/fast-clone';
@@ -10,6 +11,7 @@ import { getStateObjectStringFromComponent } from '../../helpers/get-state-objec
 import { hasProps } from '../../helpers/has-props';
 import { indent } from '../../helpers/indent';
 import { mapRefs } from '../../helpers/map-refs';
+import { initializeOptions } from '../../helpers/merge-options';
 import { getForArguments } from '../../helpers/nodes/for';
 import { renderPreComponent } from '../../helpers/render-imports';
 import { stripMetaProperties } from '../../helpers/strip-meta-properties';
@@ -21,10 +23,10 @@ import {
   runPreCodePlugins,
   runPreJsonPlugins,
 } from '../../modules/plugins';
-import { selfClosingTags } from '../../parsers/jsx';
 import { MitosisComponent } from '../../types/mitosis-component';
 import { checkIsForNode, MitosisNode } from '../../types/mitosis-node';
 import { BaseTranspilerOptions, TranspilerGenerator } from '../../types/transpiler';
+import { stringifySingleScopeOnMount } from '../helpers/on-mount';
 
 export interface ToMarkoOptions extends BaseTranspilerOptions {}
 
@@ -99,7 +101,7 @@ const blockToMarko = (json: MitosisNode, options: InternalToMarkoOptions): strin
       str += ` ${key}=(${processBinding(options.component, code as string)}) `;
     }
   }
-  if (selfClosingTags.has(json.name)) {
+  if (SELF_CLOSING_HTML_TAGS.has(json.name)) {
     return str + ' />';
   }
   str += '>';
@@ -151,12 +153,17 @@ export const componentToMarko: TranspilerGenerator<ToMarkoOptions> =
   (userOptions = {}) =>
   ({ component }) => {
     let json = fastClone(component);
-    const options: InternalToMarkoOptions = {
-      ...userOptions,
-      component: json,
-    };
+    const options = initializeOptions<InternalToMarkoOptions>({
+      target: 'marko',
+      component,
+      defaults: {
+        ...userOptions,
+        component: json,
+      },
+    });
+
     if (options.plugins) {
-      json = runPreJsonPlugins(json, options.plugins);
+      json = runPreJsonPlugins({ json, plugins: options.plugins });
     }
     let css = collectCss(json, {
       prefix: hash(json),
@@ -166,7 +173,7 @@ export const componentToMarko: TranspilerGenerator<ToMarkoOptions> =
     mapRefs(json, (refName) => `this.${camelCase(refName)}`);
 
     if (options.plugins) {
-      json = runPostJsonPlugins(json, options.plugins);
+      json = runPostJsonPlugins({ json, plugins: options.plugins });
     }
     stripMetaProperties(json);
 
@@ -224,9 +231,9 @@ export const componentToMarko: TranspilerGenerator<ToMarkoOptions> =
           .join('\n')}
       
         ${
-          !json.hooks.onMount?.code
+          !json.hooks.onMount.length
             ? ''
-            : `onMount() { ${processBinding(json, json.hooks.onMount.code, 'class')} }`
+            : `onMount() { ${processBinding(json, stringifySingleScopeOnMount(json), 'class')} }`
         }
         ${
           !json.hooks.onUnMount?.code
@@ -281,7 +288,7 @@ ${htmlString}
       .trim();
 
     if (options.plugins) {
-      finalStr = runPreCodePlugins(finalStr, options.plugins);
+      finalStr = runPreCodePlugins({ json, code: finalStr, plugins: options.plugins });
     }
 
     if (USE_MARKO_PRETTIER && options.prettier !== false) {
@@ -294,7 +301,7 @@ ${htmlString}
     }
 
     if (options.plugins) {
-      finalStr = runPostCodePlugins(finalStr, options.plugins);
+      finalStr = runPostCodePlugins({ json, code: finalStr, plugins: options.plugins });
     }
     return finalStr;
   };

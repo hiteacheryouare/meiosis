@@ -1,4 +1,9 @@
 import { flow, pipe } from 'fp-ts/lib/function';
+import * as prettierPluginSvelte from 'prettier-plugin-svelte';
+import prettierParserBabel from 'prettier/parser-babel';
+import prettierParserHtml from 'prettier/parser-html';
+import prettierParserPostcss from 'prettier/parser-postcss';
+import prettierParserTypescript from 'prettier/parser-typescript';
 import { format } from 'prettier/standalone';
 import traverse from 'traverse';
 import { babelTransformCode, convertTypeScriptToJS } from '../../helpers/babel-transform';
@@ -12,7 +17,8 @@ import {
 } from '../../helpers/get-state-object-string';
 import { gettersToFunctions } from '../../helpers/getters-to-functions';
 import { isMitosisNode } from '../../helpers/is-mitosis-node';
-import { mergeOptions } from '../../helpers/merge-options';
+import { initializeOptions } from '../../helpers/merge-options';
+import { processOnEventHooksPlugin } from '../../helpers/on-event';
 import { stripGetter } from '../../helpers/patterns';
 import { CODE_PROCESSOR_PLUGIN } from '../../helpers/plugins/process-code';
 import { renderPreComponent } from '../../helpers/render-imports';
@@ -28,7 +34,7 @@ import {
 } from '../../modules/plugins';
 import { MitosisComponent } from '../../types/mitosis-component';
 import { TranspilerGenerator } from '../../types/transpiler';
-import { hasGetContext, hasSetContext } from '../helpers/context';
+import { getContextType, hasGetContext, hasSetContext } from '../helpers/context';
 import { FUNCTION_HACK_PLUGIN } from '../helpers/functions';
 import { blockToSvelte } from './blocks';
 import { stripStateAndProps } from './helpers';
@@ -40,7 +46,13 @@ const getContextCode = (json: MitosisComponent) => {
     .map(([key, context]): string => {
       const { name } = context;
 
-      return `let ${key} = getContext(${name}.key);`;
+      const contextType = getContextType({ component: json, context });
+
+      switch (contextType) {
+        case 'reactive':
+        case 'normal':
+          return `let ${key} = getContext(${name}.key);`;
+      }
     })
     .join('\n');
 };
@@ -57,7 +69,11 @@ const setContextCode = ({
   return Object.values(json.context.set)
     .map((context) => {
       const { value, name, ref } = context;
-      const key = value ? `${name}.key` : name;
+      const nameIsStringLiteral =
+        (name.startsWith("'") && name.endsWith("'")) ||
+        (name.startsWith('"') && name.endsWith('"'));
+
+      const key = nameIsStringLiteral ? name : `${name}.key`;
 
       const valueStr = value
         ? processCode(stringifyContextValue(value))
@@ -65,7 +81,19 @@ const setContextCode = ({
         ? processCode(ref)
         : 'undefined';
 
-      return `setContext(${key}, ${valueStr});`;
+      const contextType = getContextType({ component: json, context });
+
+      switch (contextType) {
+        case 'normal':
+          return `setContext(${key}, ${valueStr});`;
+        case 'reactive':
+          const storeName = `${name}ContextStoreValue`;
+
+          return `
+            const ${storeName} = writable(${valueStr});
+            setContext(${key}, ${storeName});
+          `;
+      }
     })
     .join('\n');
 };
@@ -107,16 +135,22 @@ const useBindValue = (json: MitosisComponent, options: ToSvelteOptions) => {
 const DEFAULT_OPTIONS: ToSvelteOptions = {
   stateType: 'variables',
   prettier: true,
-  plugins: [FUNCTION_HACK_PLUGIN],
 };
 
 export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
   (userProvidedOptions) =>
   ({ component }) => {
-    const options = mergeOptions(DEFAULT_OPTIONS, userProvidedOptions);
+    const options = initializeOptions({
+      target: 'svelte',
+      component,
+      defaults: DEFAULT_OPTIONS,
+      userOptions: userProvidedOptions,
+    });
 
     options.plugins = [
       ...(options.plugins || []),
+      processOnEventHooksPlugin(),
+      FUNCTION_HACK_PLUGIN,
       // Strip types from any JS code that ends up in the template, because Svelte does not support TS code in templates.
       CODE_PROCESSOR_PLUGIN((codeType) => {
         switch (codeType) {
@@ -126,7 +160,9 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
           case 'hooks':
           case 'hooks-deps':
           case 'state':
+          case 'context-set':
           case 'dynamic-jsx-elements':
+          case 'types':
             return (x) => x;
         }
       }),
@@ -139,8 +175,10 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
           case 'state':
             return flow(stripStateAndProps({ json, options }), stripGetter);
           case 'properties':
-            return stripStateAndProps({ json, options });
+          case 'context-set':
+            return flow(stripStateAndProps({ json, options }));
           case 'dynamic-jsx-elements':
+          case 'types':
             return (x) => x;
         }
       }),
@@ -148,22 +186,30 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
 
     // Make a copy we can safely mutate, similar to babel's toolchain
     let json = fastClone(component);
-    json = runPreJsonPlugins(json, options.plugins);
+    json = runPreJsonPlugins({ json, plugins: options.plugins });
 
     useBindValue(json, options);
 
     gettersToFunctions(json);
 
-    const props = Array.from(getProps(json)).filter((prop) => !isSlotProperty(prop));
+    const filteredProps = Array.from(getProps(json))
+      .filter((prop) => !isSlotProperty(prop))
+      // map $prop to prop for reactive state
+      .map((x) => (x.startsWith('$') ? x.slice(1) : x));
+
+    // this helps make sure we don't have duplicate props
+    const props = Array.from(new Set(filteredProps));
 
     const refs = Array.from(getRefs(json))
       .map(stripStateAndProps({ json, options }))
       .filter((x) => !props.includes(x));
 
-    json = runPostJsonPlugins(json, options.plugins);
+    json = runPostJsonPlugins({ json, plugins: options.plugins });
 
     const css = collectCss(json);
     stripMetaProperties(json);
+
+    let usesWritable = false;
 
     const dataString = pipe(
       getStateObjectStringFromComponent(json, {
@@ -172,6 +218,13 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
         getters: false,
         format: options.stateType === 'proxies' ? 'object' : 'variables',
         keyPrefix: options.stateType === 'variables' ? 'let ' : '',
+        valueMapper: (code, _t, _p, key) => {
+          if (json.state[key!]?.propertyType === 'reactive') {
+            usesWritable = true;
+            return `writable(${code})`;
+          }
+          return code;
+        },
       }),
       babelTransformCode,
     );
@@ -223,7 +276,7 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
     let svelteImports: string[] = [];
     let svelteStoreImports: string[] = [];
 
-    if (json.hooks.onMount?.code?.length) {
+    if (json.hooks.onMount.length) {
       svelteImports.push('onMount');
     }
     if (json.hooks.onUpdate?.filter((x) => !x.deps)?.length) {
@@ -237,6 +290,10 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
     }
     if (hasSetContext(component)) {
       svelteImports.push('setContext');
+    }
+
+    if (usesWritable) {
+      svelteStoreImports.push('writable');
     }
 
     str += dedent`
@@ -261,6 +318,10 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
 
           if (options.typescript && json.propsTypeRef && json.propsTypeRef !== 'any') {
             propDeclaration += `: ${json.propsTypeRef.split(' |')[0]}['${name}']`;
+          }
+
+          if (json.props?.[name]?.optional) {
+            propDeclaration += `= undefined`;
           }
 
           if (json.defaultProps && json.defaultProps.hasOwnProperty(name)) {
@@ -304,7 +365,7 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
       }
       ${json.hooks.onInit?.code ?? ''}
 
-      ${!json.hooks.onMount?.code ? '' : `onMount(() => { ${json.hooks.onMount.code} });`}
+      ${json.hooks.onMount.map((hook) => `onMount(() => { ${hook.code} });`)}
 
       ${
         json.hooks.onUpdate
@@ -315,7 +376,7 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
 
             const fnName = `onUpdateFn_${index}`;
             return `
-              function ${fnName}() {
+              function ${fnName}(..._args${options.typescript ? ': any[]' : ''}) {
                 ${code}
               }
               $: ${fnName}(...${deps})
@@ -351,7 +412,7 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
     }
   `;
 
-    str = runPreCodePlugins(str, options.plugins);
+    str = runPreCodePlugins({ json, code: str, plugins: options.plugins });
 
     if (options.prettier !== false) {
       try {
@@ -359,11 +420,11 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
           parser: 'svelte',
           plugins: [
             // To support running in browsers
-            require('prettier/parser-html'),
-            require('prettier/parser-postcss'),
-            require('prettier/parser-babel'),
-            require('prettier/parser-typescript'),
-            require('prettier-plugin-svelte'),
+            prettierParserHtml,
+            prettierParserPostcss,
+            prettierParserBabel,
+            prettierParserTypescript,
+            prettierPluginSvelte,
           ],
         });
       } catch (err) {
@@ -374,7 +435,7 @@ export const componentToSvelte: TranspilerGenerator<ToSvelteOptions> =
 
     str = str.replace(/<script>\n<\/script>/g, '').trim();
 
-    str = runPostCodePlugins(str, options.plugins);
+    str = runPostCodePlugins({ json, code: str, plugins: options.plugins });
 
     return str;
   };

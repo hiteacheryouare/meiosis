@@ -53,7 +53,10 @@ exports[`Parse JSX > basic 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -345,7 +348,10 @@ exports[`Parse JSX > bindGroup 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -389,7 +395,10 @@ exports[`Parse JSX > bindProperty 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -414,7 +423,7 @@ exports[`Parse JSX > classDirective 1`] = `
       "@type": "@builder.io/mitosis/node",
       "bindings": {
         "class": {
-          "code": "\`form-input \${props.disabled ? 'disabled'  : ''} \${state.focus ? 'focus'  : ''}\`",
+          "code": "\`form-input \${props.disabled ? 'disabled' : ''} \${state.focus ? 'focus' : ''}\`",
           "type": "single",
         },
       },
@@ -430,7 +439,10 @@ exports[`Parse JSX > classDirective 1`] = `
     "set": {},
   },
   "defaultProps": {},
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -490,7 +502,10 @@ exports[`Parse JSX > context 1`] = `
       },
     },
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -567,7 +582,10 @@ exports[`Parse JSX > each 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -686,7 +704,10 @@ exports[`Parse JSX > eventHandlers 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -731,7 +752,10 @@ exports[`Parse JSX > html 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -827,7 +851,10 @@ exports[`Parse JSX > ifElse 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -895,7 +922,10 @@ exports[`Parse JSX > imports 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [
     {
       "imports": {
@@ -938,23 +968,21 @@ exports[`Parse JSX > lifecycleHooks 1`] = `
     "set": {},
   },
   "hooks": {
-    "onMount": {
-      "code": "
-  console.log('onMount');
-",
-      "deps": "",
-    },
+    "onEvent": [],
+    "onMount": [
+      {
+        "code": "console.log('onMount')",
+        "deps": "",
+      },
+    ],
     "onUnMount": {
       "code": "
   console.log('onDestroy');
 ",
-      "deps": "",
     },
     "onUpdate": [
       {
-        "code": "
-  console.log('onAfterUpdate');
-",
+        "code": "console.log('onAfterUpdate')",
         "deps": "",
       },
     ],
@@ -1029,7 +1057,10 @@ exports[`Parse JSX > reactive 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -1038,7 +1069,8 @@ exports[`Parse JSX > reactive 1`] = `
   "state": {
     "lowercaseName": {
       "code": "get lowercaseName() {
- return state.name.toLowerCase()}",
+  return state.name.toLowerCase();
+}",
       "type": "getter",
     },
     "name": {
@@ -1143,10 +1175,12 @@ exports[`Parse JSX > reactiveWithFn 1`] = `
     "set": {},
   },
   "hooks": {
+    "onEvent": [],
+    "onMount": [],
     "onUpdate": [
       {
-        "code": "state.calculateResult(state.a, state.b);",
-        "deps": "[state.a,state.b]",
+        "code": "state.calculateResult(state.a, state.b)",
+        "deps": "[state.a, state.b]",
       },
     ],
   },
@@ -1257,7 +1291,10 @@ exports[`Parse JSX > slots 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -1289,7 +1326,10 @@ exports[`Parse JSX > style 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},
@@ -1392,7 +1432,10 @@ exports[`Parse JSX > textExpressions 1`] = `
     "get": {},
     "set": {},
   },
-  "hooks": {},
+  "hooks": {
+    "onEvent": [],
+    "onMount": [],
+  },
   "imports": [],
   "inputs": [],
   "meta": {},

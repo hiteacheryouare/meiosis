@@ -1,8 +1,6 @@
 import { MitosisConfig, Target } from '@builder.io/mitosis';
+import { checkIsDefined } from './nullable';
 
-/**
- * Output generated component file, before it is minified and transpiled into JS.
- */
 export const checkShouldOutputTypeScript = ({
   target,
   options,
@@ -10,5 +8,6 @@ export const checkShouldOutputTypeScript = ({
   target: Target;
   options: MitosisConfig;
 }): boolean => {
-  return !!options.options[target]?.typescript;
+  const targetTsConfig = options.options[target]?.typescript;
+  return checkIsDefined(targetTsConfig) ? targetTsConfig : false;
 };
